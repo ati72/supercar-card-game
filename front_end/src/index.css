@@ -1,0 +1,259 @@
+:root {
+  --main-bg-color: #292c3c;
+  --md-bg-color: #303446;
+  --light-bg-color: rgb(94, 88, 114);
+  --font-color: #d9e0ee;
+  --green: #abe9b3;
+  --blue: #89dceb;
+  --orange: #f8bd96;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  /* border: 0px; hr tag doesn't render with border 0*/
+  box-sizing: border-box;
+  color: var(--font-color);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input:focus {
+  outline: none;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+/* Login styles */
+.login-container {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  background-color: var(--md-bg-color);
+  height: 400px;
+  width: 400px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-input {
+  width: 300px;
+  height: 38px;
+  margin: 10px;
+  background-color: var(--light-bg-color);
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+::placeholder {
+  color: var(--font-color);
+}
+
+.login-button {
+  margin-top: 16px;
+  height: 30px;
+  width: 180px;
+  color: var(--main-bg-color);
+  border-radius: 2px;
+  background-color: var(--font-color);
+  font-weight: bold;
+  border-color: transparent;
+}
+
+/* Menu styles */
+.menu-container {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-button {
+  margin-top: 16px;
+  height: 100px;
+  width: 240px;
+  color: var(--font-color);
+  border-radius: 15px;
+  border: 2px solid paleturquoise;
+  background-color: var(--main-bg-color);
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.menu-button:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* Card Styles */
+.inventory-card {
+  height: 400px;
+  width: 280px;
+  overflow: hidden;
+  border: 3px solid var(--orange);
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  background-color: var(--md-bg-color);
+}
+
+.inventory-card-image {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 15px;
+  border-radius: 18px;
+}
+
+.inventory-card-details {
+  padding: 10px;
+  flex-grow: 1;
+}
+
+/* Inventory Styles */
+
+.inventory-container {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--main-bg-color);
+}
+
+.inventory-sidebar {
+  background-color: var(--md-bg-color);
+  padding: 20px;
+}
+
+.inventory-card-container {
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 35px;
+  padding: 10px;
+}
+
+.inventory-search-input {
+  width: 300px;
+  height: 40px;
+  background-color: var(--light-bg-color);
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inventory-hp-input {
+  width: 140px;
+  height: 40px;
+  background-color: var(--light-bg-color);
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.inventory-horsepower-search-container {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inventory-select {
+  width: 300px;
+  height: 40px;
+  background-color: var(--light-bg-color);
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+/* Home styles */
+.home-container {
+  background-color: var(--md-bg-color);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container-box-half-width {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container-box-half-width.left {
+  align-items: start;
+  padding-left: 60px;
+}
+
+/* Profile styles */
+
+.profile-container {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Leaderboard styles */
+.leaderboard-container {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.leaderboard-th {
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #813b23;
+  width: 50%;
+}
+
+.leaderboard-table {
+  width: 40%;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.leaderboard-tr {
+  height: 2rem;
+}
+
+.leaderboard-td {
+  text-align: center;
+  width: 50%;
+}
+
+.leaderboard-tbody .leaderboard-tr:nth-child(even) {
+  background-color: var(--md-bg-color);
+}
