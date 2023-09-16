@@ -3,10 +3,13 @@ import { Card } from "./components/Card";
 import { BASE_URL } from "../../Api/api";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CardModel } from "../../Model/Card";
+import { NewCardModal } from "./components/NewCardModal";
 
 export const Inventory = () => {
   const accessToken: string = localStorage.getItem("jwt") || "";
   const [cards, setCards] = useState<CardModel[]>([]);
+  const [isNewCardModalActive, setIsNewCardModalActive] =
+    useState<boolean>(false);
 
   const [manufacturer, setManufacturer] = useState<string>("");
   const [minHorsepower, setMinHorsepower] = useState<string>("");
@@ -67,6 +70,11 @@ export const Inventory = () => {
       throw new Error("Error while deleting card");
     }
     getCards();
+  };
+
+  const handleCloseModal = () => {
+    document.body.classList.remove("modal-open");
+    setIsNewCardModalActive(false);
   };
 
   const handleManufacturerChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -226,6 +234,12 @@ export const Inventory = () => {
           <Link to="../menu">
             <button className="login-button">Back</button>
           </Link>
+          <button
+            className="login-button"
+            onClick={() => setIsNewCardModalActive(true)}
+          >
+            Add new card
+          </button>
         </div>
       </div>
       <div className="inventory-card-container">
@@ -245,6 +259,14 @@ export const Inventory = () => {
           />
         ))}
       </div>
+      {/*modal */}
+      {isNewCardModalActive && (
+        <NewCardModal
+          isNewCardModalActive={isNewCardModalActive}
+          handleCloseModal={handleCloseModal}
+          getCards={getCards}
+        />
+      )}
     </div>
   );
 };
