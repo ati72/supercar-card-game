@@ -9,9 +9,6 @@ export const NewCardModal: React.FC<{
   const [isModalOpen, setIsModalOpen] = useState(props.isNewCardModalActive);
   const ref = useRef<HTMLDialogElement | null>(null);
 
-  // csinálok egy mode propot, és beadom a card objektet propban aztén ha mód new akkor setformdata initialformdata ha update akkor prop.card-ból
-  // kiszedni az adatokat és azt setformdata, a formdate usestate pedig az elején üres objekt, esetleg lehet csinálni modelt v interface-t?
-
   const initialFormData = {
     manufacturer: "",
     type: "",

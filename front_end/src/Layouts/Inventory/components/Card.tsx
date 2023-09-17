@@ -2,8 +2,6 @@ import { useState } from "react";
 import defaultCarImage from "../../../assets/default-car.png";
 import { UpdateCardModal } from "./UpdateCardModal";
 
-// TODO: image should be smaller, leave space for background
-
 export const Card: React.FC<{
   id: number;
   manufacturer: string;
@@ -14,13 +12,9 @@ export const Card: React.FC<{
   displacement: number;
   description: string;
   imageUrl?: string;
-  deleteCard: (id: number) => void; // ezt megváltoztattam any-ről, ha esetleg beszarna, még nem próbáltam
-  //new
-  //handleOpenUpdateCardModal: () => void;
-  //handleCloseModal: () => void;
+  deleteCard: (id: number) => void;
   getCards: () => void;
 }> = (props) => {
-  //new
   const [isUpdateCardModalActive, setIsUpdateCardModalActive] = useState(false);
 
   const handleOpenUpdateCardModal = () => {

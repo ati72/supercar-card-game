@@ -39,10 +39,8 @@ export const LoginAndRegister: React.FC<{
       const body = await response.json();
       console.log(body);
       localStorage.setItem("jwt", jwt);
-      //props.onLoginSuccess(await response.json());
       props.onLoginSuccess(body);
       console.log(response.headers.get("authorization"));
-      //console.log(await response.json()); // Ezt el kéne menteni, hogy vissza tudjam adni a profile-ban
 
       navigate("/menu");
     } catch (error) {

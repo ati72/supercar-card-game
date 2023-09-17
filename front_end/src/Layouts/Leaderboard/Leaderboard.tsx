@@ -3,7 +3,6 @@ import { BASE_URL } from "../../Api/api";
 import { Link } from "react-router-dom";
 
 export const Leaderboard = () => {
-  // accessToken változó mehetne api csomagba
   const accessToken: string = localStorage.getItem("jwt") || "";
   const [top10Users, setTop10Users] = useState<[]>([]);
 

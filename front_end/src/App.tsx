@@ -13,11 +13,6 @@ import { Admin } from "./Layouts/Admin/Admin";
 import { useState } from "react";
 
 function App() {
-  // const isSignedIn =
-  //   localStorage.getItem("jwt") !== "" && localStorage.getItem("jwt") !== null;
-  // console.log(isSignedIn);
-
-  // TODO: itt a usestate lehetne akkor üres bool? így is működik...
   const [isSignedIn, setIsSignedIn] = useState(
     localStorage.getItem("jwt") !== "" && localStorage.getItem("jwt") !== null
   );

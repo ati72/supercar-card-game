@@ -5,9 +5,8 @@ export const PrivateRoute: React.FC<{
   children: React.ReactNode;
 }> = (props) => {
   if (!props.isSignedIn) {
-    return <Navigate to="/home" replace />; //mi a replace?
+    return <Navigate to="/home" replace />;
   }
 
-  // a childrent lehet fragmentsbe kell rakni
   return props.children;
 };
