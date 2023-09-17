@@ -21,22 +21,6 @@ export const Inventory = () => {
   const [type, setType] = useState<string>("");
 
   useEffect(() => {
-    // const getCards = async () => {
-    //   const response = await fetch(`${BASE_URL}/cards`, {
-    //     headers: {
-    //       "content-type": "application/json",
-    //       authorization: `Bearer ${accessToken}`,
-    //     },
-    //     method: "GET",
-    //   });
-    //   if (!response.ok) {
-    //     console.log("Error card fetch");
-    //     throw new Error("Error card fetch");
-    //   }
-    //   const data = await response.json();
-    //   setCards(data);
-    //   console.log(data);
-    // };
     getCards();
   }, []);
 
@@ -256,6 +240,7 @@ export const Inventory = () => {
             description={card.description}
             imageUrl={card.imageUrl}
             deleteCard={deleteCard}
+            getCards={getCards}
           />
         ))}
       </div>

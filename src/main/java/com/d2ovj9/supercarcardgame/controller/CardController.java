@@ -48,9 +48,8 @@ public class CardController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCard(@RequestBody Card card, @PathVariable Long id) {
-         cardService.saveCard(card);
+         cardService.updateCard(id, card);
          return ResponseEntity.ok("Card updated");
-        // ????? hogyvót
     }
 
     @DeleteMapping("/delete/{id}")

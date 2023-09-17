@@ -1,4 +1,6 @@
+import { useState } from "react";
 import defaultCarImage from "../../../assets/default-car.png";
+import { UpdateCardModal } from "./UpdateCardModal";
 
 // TODO: image should be smaller, leave space for background
 
@@ -12,8 +14,23 @@ export const Card: React.FC<{
   displacement: number;
   description: string;
   imageUrl?: string;
-  deleteCard: any;
+  deleteCard: (id: number) => void; // ezt megváltoztattam any-ről, ha esetleg beszarna, még nem próbáltam
+  //new
+  //handleOpenUpdateCardModal: () => void;
+  //handleCloseModal: () => void;
+  getCards: () => void;
 }> = (props) => {
+  //new
+  const [isUpdateCardModalActive, setIsUpdateCardModalActive] = useState(false);
+
+  const handleOpenUpdateCardModal = () => {
+    setIsUpdateCardModalActive(true);
+  };
+
+  const handleCloseUpdateCardModal = () => {
+    setIsUpdateCardModalActive(false);
+  };
+
   return (
     <div className="inventory-card">
       <img
@@ -36,9 +53,27 @@ export const Card: React.FC<{
         <p style={{ color: "var(--blue)" }}>
           Engine Displacement: {props.displacement} cc
         </p>
-        <button>Edit</button>
+        <button onClick={() => handleOpenUpdateCardModal()}>Edit</button>
         <button onClick={() => props.deleteCard(props.id)}>Delete</button>
       </div>
+      {/*UPDATE MODAL */}
+      {isUpdateCardModalActive && (
+        <UpdateCardModal
+          key={props.id}
+          isUpdateCardModalActive={isUpdateCardModalActive}
+          handleCloseModal={handleCloseUpdateCardModal}
+          getCards={props.getCards}
+          id={props.id}
+          manufacturer={props.manufacturer}
+          type={props.type}
+          productionYear={props.productionYear}
+          topSpeed={props.topSpeed}
+          horsePower={props.horsePower}
+          displacement={props.displacement}
+          description={props.description}
+          imageUrl={props.imageUrl}
+        />
+      )}
     </div>
   );
 };

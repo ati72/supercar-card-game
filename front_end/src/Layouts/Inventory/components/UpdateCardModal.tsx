@@ -1,35 +1,37 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../Api/api";
 
-export const NewCardModal: React.FC<{
-  isNewCardModalActive: boolean;
+export const UpdateCardModal: React.FC<{
+  isUpdateCardModalActive: boolean;
   handleCloseModal: () => void;
   getCards: () => void;
+  id: number;
+  manufacturer: string;
+  type: string;
+  productionYear: number;
+  topSpeed: number;
+  horsePower: number;
+  displacement: number;
+  description: string;
+  imageUrl?: string;
 }> = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(props.isNewCardModalActive);
+  const [isModalOpen, setIsModalOpen] = useState(props.isUpdateCardModalActive);
   const ref = useRef<HTMLDialogElement | null>(null);
 
-  // csinálok egy mode propot, és beadom a card objektet propban aztén ha mód new akkor setformdata initialformdata ha update akkor prop.card-ból
-  // kiszedni az adatokat és azt setformdata, a formdate usestate pedig az elején üres objekt, esetleg lehet csinálni modelt v interface-t?
-
-  const initialFormData = {
-    manufacturer: "",
-    type: "",
-    productionYear: "",
-    topSpeed: "",
-    horsePower: "",
-    displacement: "",
-    description: "",
-    imageUrl: "",
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
-
+  const [formData, setFormData] = useState({
+    manufacturer: props.manufacturer,
+    type: props.type,
+    productionYear: props.productionYear,
+    topSpeed: props.topSpeed,
+    horsePower: props.horsePower,
+    displacement: props.displacement,
+    description: props.description,
+    imageUrl: props.imageUrl || "",
+  });
   const accessToken: string = localStorage.getItem("jwt") || "";
 
   useEffect(() => {
     const modalElement = ref.current;
-
     if (modalElement) {
       if (isModalOpen) {
         modalElement.showModal();
@@ -65,8 +67,8 @@ export const NewCardModal: React.FC<{
     } = formData;
 
     try {
-      const response = await fetch(`${BASE_URL}/cards/save`, {
-        method: "POST",
+      const response = await fetch(`${BASE_URL}/cards/${props.id}`, {
+        method: "PUT",
         headers: {
           "content-type": "application/json",
           authorization: `Bearer ${accessToken}`,
@@ -83,23 +85,22 @@ export const NewCardModal: React.FC<{
         }),
       });
 
-      if (response.ok) {
-        alert("ok");
-        setFormData(initialFormData);
-        props.getCards();
-      } else {
-        console.error("Error while submitting the form");
+      if (!response.ok) {
+        console.log("Error while submitting the form.");
+        // toast error
       }
+
+      alert("ok");
+      // toast success
+      props.getCards();
     } catch (error) {
-      console.error("Error: " + error);
+      console.error("Error while submitting the form.");
     }
   };
 
   return (
     <dialog className="inventory-new-card-dialog" ref={ref}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Add New Card
-      </h1>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Update Card</h1>
       <form id="card-form" onSubmit={handleSubmit}>
         <input
           placeholder="Manufacturer"
@@ -155,7 +156,7 @@ export const NewCardModal: React.FC<{
           type="text"
           name="imageUrl"
           onChange={handleChange}
-          value={formData.imageUrl}
+          value={formData.imageUrl || ""}
         />
         <textarea
           className="inventory-textarea"
