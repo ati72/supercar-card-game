@@ -20,6 +20,15 @@ export const LoginAndRegister: React.FC<{
   };
 
   const handleLogin = async () => {
+    if (password.current === "" || password.current.length < 3) {
+      alert("Password must be at least 3 characters long");
+      return;
+    }
+    if (userName.current === "" || userName.current.length < 3) {
+      alert("Username must be at least 3 characters long");
+      return;
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
@@ -51,6 +60,15 @@ export const LoginAndRegister: React.FC<{
   };
 
   const handleRegister = async () => {
+    if (password.current === "" || password.current.length < 3) {
+      alert("Password must be at least 3 characters long");
+      return;
+    }
+    if (userName.current === "" || userName.current.length < 3) {
+      alert("Username must be at least 3 characters long");
+      return;
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/user/register`, {
         method: "POST",

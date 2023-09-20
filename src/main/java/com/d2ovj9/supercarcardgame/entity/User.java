@@ -2,6 +2,8 @@ package com.d2ovj9.supercarcardgame.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +24,15 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "user_name")
+    @NotBlank(message = "Username must not be empty.")
+    @Size(min = 3, message = "Username must be at least 3 characters long.")
+    @Size(max = 20, message = "Username must be shorter than 20 characters.")
     private String username;
 
     @Column(name = "password")
+    @NotBlank(message = "Password must not be empty.")
+    @Size(min = 3, message = "Password must be at least 3 characters long.")
+    @JsonIgnore
     private String password;
 
     @Column(name = "games_played")
@@ -34,7 +42,7 @@ public class User implements UserDetails {
     private int gamesWon;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @JsonIgnore
+    //@JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 
     @Override

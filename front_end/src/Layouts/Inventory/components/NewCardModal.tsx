@@ -61,6 +61,31 @@ export const NewCardModal: React.FC<{
       imageUrl,
     } = formData;
 
+    if (formData.manufacturer.trim() === "") {
+      alert("Manufacturer needed.");
+      return;
+    }
+    if (formData.type.trim() === "") {
+      alert("Type needed.");
+      return;
+    }
+    if (formData.productionYear === "") {
+      alert("Production year needed.");
+      return;
+    }
+    if (formData.topSpeed === "") {
+      alert("Top Speed needed.");
+      return;
+    }
+    if (formData.horsePower === "") {
+      alert("Horsepower needed.");
+      return;
+    }
+    if (formData.displacement === "") {
+      alert("Displacement needed.");
+      return;
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/cards/save`, {
         method: "POST",

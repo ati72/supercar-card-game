@@ -5,8 +5,10 @@ import com.d2ovj9.supercarcardgame.entity.User;
 import com.d2ovj9.supercarcardgame.service.UserService;
 import com.d2ovj9.supercarcardgame.util.CustomPasswordEncoder;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -53,7 +55,13 @@ public class UserController {
     }
 
     @PostMapping ("/register")
-    public ResponseEntity<?> register (@RequestBody RegisterUserRequest request) {
+    public ResponseEntity<?> register (@Valid @RequestBody RegisterUserRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body("Bad Request");
+        }
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(encoder.getPasswordEncoder().encode(request.getPassword()));

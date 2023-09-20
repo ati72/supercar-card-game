@@ -4,6 +4,7 @@ import com.d2ovj9.supercarcardgame.dto.AuthCredentialsRequest;
 import com.d2ovj9.supercarcardgame.entity.User;
 import com.d2ovj9.supercarcardgame.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,7 +31,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthCredentialsRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Bad Request");
+        }
+
         try {
             Authentication authenticate = authenticationProvider
                     .authenticate(
@@ -52,7 +58,7 @@ public class AuthController {
             // TODO: DTO so this doesn't send out password and stuff
 
         } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.badRequest().body("Bad Credentials");
         }
     }
 

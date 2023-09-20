@@ -227,22 +227,26 @@ export const Inventory = () => {
         </div>
       </div>
       <div className="inventory-card-container">
-        {filteredCards.map((card) => (
-          <Card
-            key={card.id}
-            id={card.id}
-            manufacturer={card.manufacturer}
-            type={card.type}
-            productionYear={card.productionYear}
-            topSpeed={card.topSpeed}
-            horsePower={card.horsePower}
-            displacement={card.displacement * 1000}
-            description={card.description}
-            imageUrl={card.imageUrl}
-            deleteCard={deleteCard}
-            getCards={getCards}
-          />
-        ))}
+        {filteredCards.length < 1 ? (
+          <h1>No cards found.</h1>
+        ) : (
+          filteredCards.map((card) => (
+            <Card
+              key={card.id}
+              id={card.id}
+              manufacturer={card.manufacturer}
+              type={card.type}
+              productionYear={card.productionYear}
+              topSpeed={card.topSpeed}
+              horsePower={card.horsePower}
+              displacement={card.displacement * 1000}
+              description={card.description}
+              imageUrl={card.imageUrl}
+              deleteCard={deleteCard}
+              getCards={getCards}
+            />
+          ))
+        )}
       </div>
       {/*modal */}
       {isNewCardModalActive && (
