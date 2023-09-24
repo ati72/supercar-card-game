@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../Api/api";
+import { toast } from "react-toastify";
 
 export const NewPasswordModal: React.FC<{
   isNewPasswordModalActive: boolean;
@@ -48,12 +49,12 @@ export const NewPasswordModal: React.FC<{
     const { username, oldPassword, newPassword } = formData;
 
     if (formData.oldPassword.trim() === "") {
-      alert("Old password needed");
+      toast.warn("Old password needed.");
       return;
     }
 
     if (formData.newPassword.trim() === "") {
-      alert("New password needed");
+      toast.warn("New password needed.");
       return;
     }
 
@@ -68,12 +69,13 @@ export const NewPasswordModal: React.FC<{
       });
 
       if (response.ok) {
-        alert("Password changed");
+        toast.success("Password changed");
         setFormData(initialFormData);
       } else {
-        alert("Request failed");
+        toast.error("Something went wrong!");
       }
     } catch (error) {
+      toast.error("Something went wrong!");
       console.log("Error " + error);
     }
   };

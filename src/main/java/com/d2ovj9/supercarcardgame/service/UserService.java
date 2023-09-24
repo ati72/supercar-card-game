@@ -50,7 +50,7 @@ public class UserService {
         return userRepository.findTop10ByOrderByGamesWonDesc();
     }
 
-    public ResponseEntity<?> changePassword(String username, String oldPassword, String newPassword) throws UsernameNotFoundException {
+    public ResponseEntity<?> changePassword(String username, String oldPassword, String newPassword) {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().body("User does not exist");

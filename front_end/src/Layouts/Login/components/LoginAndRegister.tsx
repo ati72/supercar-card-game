@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../Api/api";
+import { toast } from "react-toastify";
 
 export const LoginAndRegister: React.FC<{
   title: string;
@@ -21,11 +22,11 @@ export const LoginAndRegister: React.FC<{
 
   const handleLogin = async () => {
     if (password.current === "" || password.current.length < 3) {
-      alert("Password must be at least 3 characters long");
+      toast.warn("Password must be at least 3 characters long");
       return;
     }
     if (userName.current === "" || userName.current.length < 3) {
-      alert("Username must be at least 3 characters long");
+      toast.warn("Username must be at least 3 characters long");
       return;
     }
 
@@ -41,7 +42,7 @@ export const LoginAndRegister: React.FC<{
         }),
       });
       if (!response.ok) {
-        alert("Something went wrong!");
+        toast.error("Incorrect username or password");
         throw new Error("Something went Wrong");
       }
       const jwt = response.headers.get("authorization") || ""; // ts nem engedi a null-t...
@@ -53,7 +54,7 @@ export const LoginAndRegister: React.FC<{
 
       navigate("/menu");
     } catch (error) {
-      console.log("Error during register fetch " + error);
+      console.log("Error during login fetch " + error);
     }
 
     console.log(password.current + " " + userName.current);
@@ -61,11 +62,11 @@ export const LoginAndRegister: React.FC<{
 
   const handleRegister = async () => {
     if (password.current === "" || password.current.length < 3) {
-      alert("Password must be at least 3 characters long");
+      toast.warn("Password must be at least 3 characters long");
       return;
     }
     if (userName.current === "" || userName.current.length < 3) {
-      alert("Username must be at least 3 characters long");
+      toast.warn("Username must be at least 3 characters long");
       return;
     }
 
@@ -82,12 +83,13 @@ export const LoginAndRegister: React.FC<{
       });
 
       if (!response.ok) {
-        alert("Somethin went wrong!");
+        toast.error("Somethin went wrong!");
         throw new Error(`Http error! Status: ${response.status}`);
       }
-
+      toast.success("Account created. Log in!");
       navigate("/login");
     } catch (error) {
+      toast.error("Error during login fetch.");
       console.log("Error during fetch." + error);
     }
   };

@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../Api/api";
+import { toast } from "react-toastify";
 
 export const UpdateCardModal: React.FC<{
   isUpdateCardModalActive: boolean;
@@ -90,7 +91,7 @@ export const UpdateCardModal: React.FC<{
         // toast error
       }
 
-      alert("ok");
+      toast.success("Card updated.");
       // toast success
       props.getCards();
     } catch (error) {

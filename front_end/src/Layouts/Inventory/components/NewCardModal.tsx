@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../Api/api";
+import { toast } from "react-toastify";
 
 export const NewCardModal: React.FC<{
   isNewCardModalActive: boolean;
@@ -62,27 +63,27 @@ export const NewCardModal: React.FC<{
     } = formData;
 
     if (formData.manufacturer.trim() === "") {
-      alert("Manufacturer needed.");
+      toast.warn("Manufacturer needed.");
       return;
     }
     if (formData.type.trim() === "") {
-      alert("Type needed.");
+      toast.warn("Type needed.");
       return;
     }
     if (formData.productionYear === "") {
-      alert("Production year needed.");
+      toast.warn("Production year needed.");
       return;
     }
     if (formData.topSpeed === "") {
-      alert("Top Speed needed.");
+      toast.warn("Top Speed needed.");
       return;
     }
     if (formData.horsePower === "") {
-      alert("Horsepower needed.");
+      toast.warn("Horsepower needed.");
       return;
     }
     if (formData.displacement === "") {
-      alert("Displacement needed.");
+      toast.warn("Displacement needed.");
       return;
     }
 
@@ -106,7 +107,7 @@ export const NewCardModal: React.FC<{
       });
 
       if (response.ok) {
-        alert("ok");
+        toast.success("Card saved");
         setFormData(initialFormData);
         props.getCards();
       } else {

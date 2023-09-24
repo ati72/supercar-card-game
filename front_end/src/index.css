@@ -213,7 +213,7 @@ button:hover {
 }
 
 .inventory-new-card-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 #card-form {

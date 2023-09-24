@@ -11,6 +11,8 @@ import { Leaderboard } from "./Layouts/Leaderboard/Leaderboard";
 import { PrivateRoute } from "./Util/PrivateRoute";
 import { Admin } from "./Layouts/Admin/Admin";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const initialUserInfo = localStorage.getItem("userInfo")
@@ -29,66 +31,81 @@ function App() {
   };
 
   return (
-    <Routes>
-      <Route path="home" element={<Home />} />
-      <Route path="register" element={<Register />} />
-      <Route
-        path="login"
-        element={<Login onLoginSuccess={handleLoginSuccess} />}
+    <div>
+      <ToastContainer
+        className="custom-toast-container"
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
-      <Route path="*" element={<Navigate to="home" />} />
+      <Routes>
+        <Route path="home" element={<Home />} />
+        <Route path="register" element={<Register />} />
+        <Route
+          path="login"
+          element={<Login onLoginSuccess={handleLoginSuccess} />}
+        />
+        <Route path="*" element={<Navigate to="home" />} />
 
-      <Route
-        path="menu"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Menu />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="play"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Game />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="inventory"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Inventory />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="admin"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Admin />
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="menu"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Menu />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="play"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Game />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="inventory"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Inventory />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Admin />
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="profile"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Profile userInfo={userInfo} />
-          </PrivateRoute>
-        }
-      ></Route>
+        <Route
+          path="profile"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Profile userInfo={userInfo} />
+            </PrivateRoute>
+          }
+        ></Route>
 
-      <Route
-        path="leaderboard"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <Leaderboard />
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="leaderboard"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Leaderboard />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </div>
   );
 }
 

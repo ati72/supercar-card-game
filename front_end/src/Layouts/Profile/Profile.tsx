@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { NewPasswordModal } from "./components/NewPasswordModal";
 
 export const Profile: React.FC<{ userInfo: any }> = (props) => {
-  //TODO: local helyett api request!!!!!
+  //TODO: local helyett api request!!!!! akkor userInfo prop mehet a kukába
   const [isNewPasswordModalActive, setIsNewPasswordModalActive] =
     useState<boolean>(false);
 
-  const userInfo2 = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo2 = JSON.parse(localStorage.getItem("userInfo") || "");
 
   const handleCloseModal = () => {
     document.body.classList.remove("modal-open");
