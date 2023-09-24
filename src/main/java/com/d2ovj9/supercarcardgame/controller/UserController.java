@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -57,17 +55,13 @@ public class UserController {
 
     @PostMapping ("/register")
     public ResponseEntity<?> register (@Valid @RequestBody RegisterUserRequest request, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
             return ResponseEntity.badRequest().body("Bad Request");
         }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(encoder.getPasswordEncoder().encode(request.getPassword()));
-        userService.registerUser(user);
-        return ResponseEntity.ok("User saved");
+        return userService.registerUser(request);
+
     }
 
     @PutMapping("/changePassword")

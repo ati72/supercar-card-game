@@ -82,12 +82,17 @@ export const LoginAndRegister: React.FC<{
         }),
       });
 
-      if (!response.ok) {
-        toast.error("Somethin went wrong!");
-        throw new Error(`Http error! Status: ${response.status}`);
+      if (response.ok) {
+        toast.success("Account created. Log in!.");
+        navigate("/login");
+      } else if (response.status === 400) {
+        const responseBody = await response.json();
+        if (responseBody.code === "123") {
+          toast.error(responseBody.message);
+        } else {
+          toast.error("Something went wrong.");
+        }
       }
-      toast.success("Account created. Log in!");
-      navigate("/login");
     } catch (error) {
       toast.error("Error during login fetch.");
       console.log("Error during fetch." + error);

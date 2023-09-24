@@ -1,5 +1,6 @@
 package com.d2ovj9.supercarcardgame.service;
 
+import com.d2ovj9.supercarcardgame.dto.RegisterUserRequest;
 import com.d2ovj9.supercarcardgame.entity.User;
 import com.d2ovj9.supercarcardgame.repository.UserRepository;
 import com.d2ovj9.supercarcardgame.util.CustomPasswordEncoder;
@@ -8,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -38,8 +37,21 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void registerUser(User user) {
+    public ResponseEntity<?> registerUser(RegisterUserRequest request) {
+        Optional<User> existingUser = userRepository.findByUsername(request.getUsername());
+
+        if (existingUser.isPresent()) {
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("code", "123");
+            responseBody.put("message", "Username already exists.");
+            return ResponseEntity.badRequest().body(responseBody);
+        }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(encoder.getPasswordEncoder().encode(request.getPassword()));
         userRepository.save(user);
+        return ResponseEntity.ok("User saved");
     }
 
     public void deleteUser(Long id) {
