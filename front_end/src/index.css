@@ -261,6 +261,26 @@ body.modal-open {
   align-items: center;
 }
 
+.profile-new-password-dialog {
+  width: 500px;
+  height: 320px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--md-bg-color);
+  border-radius: 10px;
+  border-color: var(--light-bg-color);
+}
+
+#new-password-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 /* Leaderboard styles */
 .leaderboard-container {
   background-color: var(--main-bg-color);

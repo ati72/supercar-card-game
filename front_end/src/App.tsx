@@ -13,14 +13,19 @@ import { Admin } from "./Layouts/Admin/Admin";
 import { useState } from "react";
 
 function App() {
+  const initialUserInfo = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo")!)
+    : {};
+
   const [isSignedIn, setIsSignedIn] = useState(
     localStorage.getItem("jwt") !== "" && localStorage.getItem("jwt") !== null
   );
-  const [userInfo, setUserInfo] = useState<object>({});
+  const [userInfo, setUserInfo] = useState<object>(initialUserInfo);
 
   const handleLoginSuccess = (userInfo: object) => {
     setIsSignedIn(true);
     setUserInfo(userInfo);
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
   };
 
   return (

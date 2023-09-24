@@ -5,6 +5,7 @@ export const Menu = () => {
 
   const signOut = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("userInfo");
     navigate("/home");
   };
 
