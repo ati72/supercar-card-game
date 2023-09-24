@@ -1,5 +1,6 @@
 package com.d2ovj9.supercarcardgame.controller;
 
+import com.d2ovj9.supercarcardgame.dto.NewPasswordRequest;
 import com.d2ovj9.supercarcardgame.dto.RegisterUserRequest;
 import com.d2ovj9.supercarcardgame.entity.User;
 import com.d2ovj9.supercarcardgame.service.UserService;
@@ -67,6 +68,14 @@ public class UserController {
         user.setPassword(encoder.getPasswordEncoder().encode(request.getPassword()));
         userService.registerUser(user);
         return ResponseEntity.ok("User saved");
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody NewPasswordRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Bad Request");
+        }
+        return userService.changePassword(request.getUsername(), request.getOldPassword(), request.getNewPassword());
     }
 
 //TODO front-end request dto -- field whick tells if game is won
