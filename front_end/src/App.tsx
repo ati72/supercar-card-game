@@ -1,18 +1,20 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Home } from "./Layouts/Home/Home";
-import { Register } from "./Layouts/Login/Register";
-import { Login } from "./Layouts/Login/Login";
-import { Menu } from "./Layouts/Menu/Menu";
-import { Game } from "./Layouts/Game/Game";
-import { Inventory } from "./Layouts/Inventory/Inventory";
-import { Profile } from "./Layouts/Profile/Profile";
-import { Leaderboard } from "./Layouts/Leaderboard/Leaderboard";
+import { Home } from "./Pages/Home/Home";
+import { Register } from "./Pages/Login/Register";
+import { Login } from "./Pages/Login/Login";
+import { Menu } from "./Pages/Menu/Menu";
+import { Game } from "./Pages/Game/Game";
+import { Inventory } from "./Pages/Inventory/Inventory";
+import { Profile } from "./Pages/Profile/Profile";
+import { Leaderboard } from "./Pages/Leaderboard/Leaderboard";
 import { PrivateRoute } from "./Util/PrivateRoute";
-import { Admin } from "./Layouts/Admin/Admin";
+import { Admin } from "./Pages/Admin/Admin";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Users } from "./Pages/Users/Users";
+import { UserDetails } from "./Pages/UserDetails/UserDetails";
 
 function App() {
   const initialUserInfo = localStorage.getItem("userInfo")
@@ -101,6 +103,22 @@ function App() {
           element={
             <PrivateRoute isSignedIn={isSignedIn}>
               <Leaderboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="user/:userId"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <UserDetails />
             </PrivateRoute>
           }
         />

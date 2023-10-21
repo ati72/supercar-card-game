@@ -77,7 +77,7 @@ button:hover {
 /* Menu styles */
 .menu-container {
   background-color: var(--main-bg-color);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -86,7 +86,7 @@ button:hover {
 
 .menu-button {
   margin-top: 16px;
-  height: 100px;
+  height: 80px;
   width: 240px;
   color: var(--font-color);
   border-radius: 15px;
@@ -315,4 +315,16 @@ body.modal-open {
 
 .leaderboard-tbody .leaderboard-tr:nth-child(even) {
   background-color: var(--md-bg-color);
+}
+
+.admin-container {
+  background-color: var(--main-bg-color);
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.admin-info-card {
+  height: 200px;
+  width: 120px;
+  border: 1px solid var(--blue);
 }
