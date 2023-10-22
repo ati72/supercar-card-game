@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserService from "../../Api/UserService";
 
 export const Users = () => {
+  const [userList, setUserList] = useState([]);
+  const accessToken: string = localStorage.getItem("jwt") || "";
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const users = await UserService.getAllUsers(accessToken);
+        setUserList(users);
+        console.log(users);
+      } catch (error) {
+        console.error("Error fetching users. Users.tsx");
+        throw new Error(`Request failed userService.getUser() at users.tsx`);
+      }
+    }
+    fetchUsers();
+  }, []);
+
   return (
     <div className="admin-container">
+      <h1>Manage Users</h1>
       <div>
         <table className="leaderboard-table">
           <thead className="leaderboard-th">
@@ -14,13 +33,23 @@ export const Users = () => {
             </tr>
           </thead>
           <tbody className="leaderboard-tbody">
-            <tr className="leaderboard-tr">
-              <td className="leaderboard-td">1</td>
-              <td className="leaderboard-td">Ati</td>
-              <td className="leaderboard-td">
-                <button className="login-button">asd</button>
-              </td>
-            </tr>
+            {userList.map((user) => (
+              <tr className="leaderboard-tr" key={user.id}>
+                <td className="leaderboard-td">{user.id}</td>
+                <td className="leaderboard-td">{user.username}</td>
+                <td className="leaderboard-td">
+                  <Link to={`/user/${user.id}`}>
+                    <button className="login-button">Details</button>
+                  </Link>
+                  <button
+                    className="login-button"
+                    onClick={() => UserService.deleteUser(user.id, accessToken)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
