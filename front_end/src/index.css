@@ -335,8 +335,11 @@ body.modal-open {
 
 .user-table-container {
   width: 1000px;
-  height: 800px;
   overflow: auto;
+}
+
+.users-table {
+  width: 100%;
 }
 
 .error-page {

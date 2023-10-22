@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import UserService from "../../Api/UserService";
+import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
 
 export const UserDetails = () => {
   const { userId } = useParams();
@@ -26,17 +27,30 @@ export const UserDetails = () => {
   return (
     <div>
       {userInfo === null ? (
-        <div className="error-page">
+        <FlexContainerCentered>
           <h1>User not found</h1>
           <Link to="/users">
             <button className="login-button">Back</button>
           </Link>
-        </div>
+        </FlexContainerCentered>
       ) : (
-        <div>
+        <FlexContainerCentered>
           User ID: {userInfo.id}
           <div>User Name: {userInfo.username}</div>
-        </div>
+          <div>
+            <div>
+              <button className="login-button">Grant Admin Authority</button>
+            </div>
+            <div>
+              <button className="login-button">Revoke Admin Authority</button>
+            </div>
+            <div>
+              <Link to="/users">
+                <button className="login-button">Back</button>
+              </Link>
+            </div>
+          </div>
+        </FlexContainerCentered>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../../Api/UserService";
+import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
 
 export const Users = () => {
   // ide lehetne valami dto be-n és modellben megcsinálni itt aztn a típust hozzááadni a usestatehez...
@@ -37,41 +38,43 @@ export const Users = () => {
   return (
     <div className="admin-container">
       <h1>Manage Users</h1>
-      <div className="user-table-container">
-        <table className="leaderboard-table">
-          <thead className="leaderboard-th">
-            <tr className="leaderboard-tr">
-              <th>ID</th>
-              <th>Username</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="leaderboard-tbody">
-            {userList.map((user) => (
-              <tr className="leaderboard-tr" key={user.id}>
-                <td className="leaderboard-td">{user.id}</td>
-                <td className="leaderboard-td">{user.username}</td>
-                <td className="leaderboard-td">
-                  <Link to={`/user/${user.id}`}>
-                    <button className="login-button">Details</button>
-                  </Link>
-                  <button
-                    className="login-button"
-                    onClick={() => handleDeleteUser(user.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+      <FlexContainerCentered>
+        <div className="user-table-container">
+          <table className="users-table">
+            <thead className="leaderboard-th">
+              <tr className="leaderboard-tr">
+                <th>ID</th>
+                <th>Username</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <Link to="/menu">
-          <button className="login-button">Back</button>
-        </Link>
-      </div>
+            </thead>
+            <tbody className="leaderboard-tbody">
+              {userList.map((user) => (
+                <tr className="leaderboard-tr" key={user.id}>
+                  <td className="leaderboard-td">{user.id}</td>
+                  <td className="leaderboard-td">{user.username}</td>
+                  <td className="leaderboard-td">
+                    <Link to={`/user/${user.id}`}>
+                      <button className="login-button">Details</button>
+                    </Link>
+                    <button
+                      className="login-button"
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <Link to="/admin">
+            <button className="login-button">Back</button>
+          </Link>
+        </div>
+      </FlexContainerCentered>
     </div>
   );
 };
