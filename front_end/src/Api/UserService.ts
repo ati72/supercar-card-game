@@ -12,7 +12,6 @@ class UserService {
         method: "GET",
       });
       if (!response.ok) {
-        // itt inkább átirnyítani not found oldalra??
         throw new Error(`Request failed with status: ${response.status}`);
       }
       return await response.json();
@@ -52,10 +51,6 @@ class UserService {
         console.log("Error while deleting user");
         throw new Error(`Request failed with status: ${response.status}`);
       }
-      // ez így elég gagyi...
-      // inkább meg kéne itt kapni a userListet és kitörölni belőle amit törlünk
-      // aztán hozzáadni a userlistet a useeffecthez...
-      window.location.reload();
     } catch (error) {
       console.log("Error while deleting user");
       throw new Error(`Request failed userService.delete()`);

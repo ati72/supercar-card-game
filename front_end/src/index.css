@@ -317,6 +317,8 @@ body.modal-open {
   background-color: var(--md-bg-color);
 }
 
+/* Admin styles */
+
 .admin-container {
   background-color: var(--main-bg-color);
   min-height: 100vh;
@@ -329,8 +331,19 @@ body.modal-open {
   border: 1px solid var(--blue);
 }
 
+/* User Info styles */
+
 .user-table-container {
   width: 1000px;
   height: 800px;
   overflow: auto;
+}
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
 }

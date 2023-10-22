@@ -29,13 +29,13 @@ export const NewPasswordModal: React.FC<{
       if (isModalOpen) {
         modalElement.showModal();
         document.body.classList.add("modal-open");
-        console.log(props.username + "asd");
       } else {
         modalElement.close();
       }
     }
   }, [isModalOpen]);
 
+  // TODO: Ilyenre t lehetne írni a new cardét is...
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
