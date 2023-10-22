@@ -53,6 +53,8 @@ class UserService {
         throw new Error(`Request failed with status: ${response.status}`);
       }
       // ez így elég gagyi...
+      // inkább meg kéne itt kapni a userListet és kitörölni belőle amit törlünk
+      // aztán hozzáadni a userlistet a useeffecthez...
       window.location.reload();
     } catch (error) {
       console.log("Error while deleting user");

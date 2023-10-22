@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserService from "../../Api/UserService";
 
@@ -6,6 +6,7 @@ export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
   const [userInfo, setUserInfo] = useState("");
+
   useEffect(() => {
     async function fetchUser(userId: number) {
       try {

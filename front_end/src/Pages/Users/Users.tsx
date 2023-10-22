@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../../Api/UserService";
 
 export const Users = () => {
-  const [userList, setUserList] = useState([]);
+  // ide lehetne valami dto be-n és modellben megcsinálni itt aztn a típust hozzááadni a usestatehez...
+  const [userList, setUserList] = useState<[]>([]);
   const accessToken: string = localStorage.getItem("jwt") || "";
 
   useEffect(() => {
@@ -20,10 +21,23 @@ export const Users = () => {
     fetchUsers();
   }, []);
 
+  // TODO: Kéne valami csekk, hogy saját magad ne tudd törölni...
+
+  const handleDeleteUser = async (userId: number) => {
+    try {
+      await UserService.deleteUser(userId, accessToken);
+      setUserList((prevUserList) =>
+        prevUserList.filter((user) => user.id !== userId)
+      );
+    } catch (error) {
+      console.error("Error deleting user.", error);
+    }
+  };
+
   return (
     <div className="admin-container">
       <h1>Manage Users</h1>
-      <div>
+      <div className="user-table-container">
         <table className="leaderboard-table">
           <thead className="leaderboard-th">
             <tr className="leaderboard-tr">
@@ -43,7 +57,7 @@ export const Users = () => {
                   </Link>
                   <button
                     className="login-button"
-                    onClick={() => UserService.deleteUser(user.id, accessToken)}
+                    onClick={() => handleDeleteUser(user.id)}
                   >
                     Delete
                   </button>

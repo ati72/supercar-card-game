@@ -328,3 +328,9 @@ body.modal-open {
   width: 120px;
   border: 1px solid var(--blue);
 }
+
+.user-table-container {
+  width: 1000px;
+  height: 800px;
+  overflow: auto;
+}
