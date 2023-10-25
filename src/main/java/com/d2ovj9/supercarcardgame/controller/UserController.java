@@ -72,6 +72,12 @@ public class UserController {
         return userService.changePassword(request.getUsername(), request.getOldPassword(), request.getNewPassword());
     }
 
+    @PutMapping("/promote/{id}")
+    public ResponseEntity<?> promoteUser(@PathVariable Long id ) {
+        userService.promoteUser(id);
+        return ResponseEntity.ok("User Promoted");
+    }
+
 //TODO front-end request dto -- field whick tells if game is won
 //    @PutMapping("/update_stats/{id}")
 //    public ResponseEntity<?> updateStats(@RequestBody ide kell egy dto request, @PathVariable Long id) {

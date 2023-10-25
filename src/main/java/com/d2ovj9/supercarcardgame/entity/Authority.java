@@ -20,6 +20,4 @@ public class Authority implements GrantedAuthority {
 
     private String authority;
 
-    @ManyToOne(optional = false)
-    private User user;
 }

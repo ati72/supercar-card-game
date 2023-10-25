@@ -41,7 +41,9 @@ public class User implements UserDetails {
     @Column(name = "games_won")
     private int gamesWon;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     //@JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 

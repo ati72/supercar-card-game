@@ -1,30 +1,83 @@
 package com.d2ovj9.supercarcardgame.service;
 
 import com.d2ovj9.supercarcardgame.dto.RegisterUserRequest;
+import com.d2ovj9.supercarcardgame.entity.Authority;
 import com.d2ovj9.supercarcardgame.entity.User;
+import com.d2ovj9.supercarcardgame.repository.AuthorityRepository;
 import com.d2ovj9.supercarcardgame.repository.UserRepository;
 import com.d2ovj9.supercarcardgame.util.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
     private final CustomPasswordEncoder encoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, CustomPasswordEncoder encoder) {
+    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository, CustomPasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
         this.encoder = encoder;
     }
 
+//    public void createAuthorities() {
+//        Authority adminAuthority = new Authority();
+//        adminAuthority.setAuthority("ADMIN");
+//        authorityRepository.save(adminAuthority);
+//        Authority userAuthority = new Authority();
+//        userAuthority.setAuthority("USER");
+//        authorityRepository.save(userAuthority);
+//    }
+
+//    public void createAdmin() {
+//        Authority adminAuthority = new Authority();
+//        adminAuthority.setAuthority("ADMIN");
+//        authorityRepository.save(adminAuthority);
+//        Authority userAuthority = new Authority();
+//        userAuthority.setAuthority("USER");
+//        authorityRepository.save(userAuthority);
+//
+//
+//        Authority adminAuthority2 = authorityRepository.findByAuthority("ADMIN").orElse(null);
+//        Authority userAuthority2 = authorityRepository.findByAuthority("USER").orElse(null);
+//
+//        if (adminAuthority == null || userAuthority == null) {
+//            System.out.println("SZAR");
+//            return;
+//        }
+//
+//        User admin = new User();
+//        admin.setUsername("admin");
+//        admin.getAuthorities().add(adminAuthority2);
+//        admin.getAuthorities().add(userAuthority2);
+//
+//        admin.setPassword(encoder.getPasswordEncoder().encode("admin"));
+//        userRepository.save(admin);
+//    }
+
     public void createAdmin() {
+        // Create and save authorities
+        Authority adminAuthority = new Authority();
+        adminAuthority.setAuthority("ADMIN");
+        authorityRepository.save(adminAuthority);
+
+        Authority userAuthority = new Authority();
+        userAuthority.setAuthority("USER");
+        authorityRepository.save(userAuthority);
+
+
+
+        // Create the admin user and associate authorities
         User admin = new User();
         admin.setUsername("admin");
+
+
         admin.setPassword(encoder.getPasswordEncoder().encode("admin"));
         userRepository.save(admin);
     }
@@ -50,6 +103,8 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(encoder.getPasswordEncoder().encode(request.getPassword()));
+        Authority userAuthority = authorityRepository.findByAuthority("USER").orElse(null);
+        user.getAuthorities().add(userAuthority);
         userRepository.save(user);
         return ResponseEntity.ok("User saved");
     }
@@ -75,5 +130,13 @@ public class UserService {
         user.get().setPassword(encoder.getPasswordEncoder().encode(newPassword));
         userRepository.save(user.get());
         return ResponseEntity.ok("Password changed");
+    }
+
+    public void promoteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        Authority adminAuthority = authorityRepository.findByAuthority("ADMIN").orElse(null);
+        user.get().getAuthorities().add(adminAuthority);
+        userRepository.save(user.get());
+
     }
 }
