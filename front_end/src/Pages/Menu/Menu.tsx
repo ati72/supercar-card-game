@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const Menu = () => {
   const navigate = useNavigate();
@@ -8,6 +9,10 @@ export const Menu = () => {
     localStorage.removeItem("userInfo");
     navigate("/home");
   };
+
+  const userInfo: UserInfo = JSON.parse(
+    localStorage.getItem("userInfo") || "{}"
+  );
 
   return (
     <div className="menu-container">
@@ -23,9 +28,12 @@ export const Menu = () => {
       <Link to="../leaderboard">
         <button className="menu-button">Leaderboard</button>
       </Link>
-      <Link to="../admin">
-        <button className="menu-button">Admin</button>
-      </Link>
+      {userInfo.authorities?.some((auth) => auth.authority == "ADMIN") && (
+        <Link to="../admin">
+          <button className="menu-button">Admin</button>
+        </Link>
+      )}
+
       <button className="menu-button" onClick={() => signOut()}>
         Logout
       </button>

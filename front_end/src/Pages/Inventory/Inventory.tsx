@@ -4,9 +4,16 @@ import { BASE_URL } from "../../Api/api";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CardModel } from "../../Model/Card";
 import { NewCardModal } from "./components/NewCardModal";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const Inventory = () => {
   const accessToken: string = localStorage.getItem("jwt") || "";
+  const userInfo: UserInfo = JSON.parse(
+    localStorage.getItem("userInfo") || "{}"
+  );
+  const isAdmin: boolean = userInfo.authorities.some(
+    (auth) => auth.authority === "ADMIN"
+  );
   const [cards, setCards] = useState<CardModel[]>([]);
   const [isNewCardModalActive, setIsNewCardModalActive] =
     useState<boolean>(false);
@@ -218,12 +225,14 @@ export const Inventory = () => {
           <Link to="../menu">
             <button className="login-button">Back</button>
           </Link>
-          <button
-            className="login-button"
-            onClick={() => setIsNewCardModalActive(true)}
-          >
-            Add new card
-          </button>
+          {isAdmin && (
+            <button
+              className="login-button"
+              onClick={() => setIsNewCardModalActive(true)}
+            >
+              Add new card
+            </button>
+          )}
         </div>
       </div>
       <div className="inventory-card-container">
@@ -242,6 +251,7 @@ export const Inventory = () => {
               displacement={card.displacement * 1000}
               description={card.description}
               imageUrl={card.imageUrl}
+              isAdmin={isAdmin}
               deleteCard={deleteCard}
               getCards={getCards}
             />

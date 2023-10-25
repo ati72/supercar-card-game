@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -55,15 +56,22 @@ public class SecurityConfig {
                     }))
                 .and()
 
+
                 .authorizeHttpRequests((authz) ->
                         authz
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/user/register").permitAll()
+                                .requestMatchers("/api/user/delete/**").hasAuthority("ADMIN")
+                                .requestMatchers("/api/cards/saveAll").hasAuthority("ADMIN")
+                                .requestMatchers("api/cards/save").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "api/cards").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider());
+
 
         return http.build();
     }

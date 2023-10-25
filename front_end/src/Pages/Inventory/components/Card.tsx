@@ -12,6 +12,7 @@ export const Card: React.FC<{
   displacement: number;
   description: string;
   imageUrl?: string;
+  isAdmin: boolean;
   deleteCard: (id: number) => void;
   getCards: () => void;
 }> = (props) => {
@@ -47,8 +48,12 @@ export const Card: React.FC<{
         <p style={{ color: "var(--blue)" }}>
           Engine Displacement: {props.displacement} cc
         </p>
-        <button onClick={() => handleOpenUpdateCardModal()}>Edit</button>
-        <button onClick={() => props.deleteCard(props.id)}>Delete</button>
+        {props.isAdmin && (
+          <>
+            <button onClick={() => handleOpenUpdateCardModal()}>Edit</button>
+            <button onClick={() => props.deleteCard(props.id)}>Delete</button>
+          </>
+        )}
       </div>
       {/*UPDATE MODAL */}
       {isUpdateCardModalActive && (

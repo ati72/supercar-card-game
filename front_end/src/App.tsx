@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Users } from "./Pages/Users/Users";
 import { UserDetails } from "./Pages/UserDetails/UserDetails";
+import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 
 function App() {
   const initialUserInfo = localStorage.getItem("userInfo")
@@ -55,6 +56,7 @@ function App() {
           element={<Login onLoginSuccess={handleLoginSuccess} />}
         />
         <Route path="*" element={<Navigate to="home" />} />
+        <Route path="/error" element={<ErrorPage />} />
 
         <Route
           path="menu"
@@ -83,7 +85,7 @@ function App() {
         <Route
           path="admin"
           element={
-            <PrivateRoute isSignedIn={isSignedIn}>
+            <PrivateRoute isSignedIn={isSignedIn} isAdmin={true}>
               <Admin />
             </PrivateRoute>
           }

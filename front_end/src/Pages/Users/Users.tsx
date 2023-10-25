@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../../Api/UserService";
 import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const Users = () => {
   // ide lehetne valami dto be-n és modellben megcsinálni itt aztn a típust hozzááadni a usestatehez...
-  const [userList, setUserList] = useState<[]>([]);
+  const [userList, setUserList] = useState<UserInfo[]>([]);
   const accessToken: string = localStorage.getItem("jwt") || "";
 
   useEffect(() => {

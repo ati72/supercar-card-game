@@ -6,7 +6,7 @@ import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCent
 export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
-  const [userInfo, setUserInfo] = useState("");
+  const [userInfo, setUserInfo] = useState<UserInfo | string>(""); // ezzel még valamit kezdeni kéne...
 
   useEffect(() => {
     async function fetchUser(userId: number) {
