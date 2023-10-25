@@ -56,6 +56,44 @@ class UserService {
       throw new Error(`Request failed userService.delete()`);
     }
   }
+
+  async promoteUser(userId: number, accessToken: string) {
+    try {
+      const response = await fetch(`${BASE_URL}/user/promote/${userId}`, {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        method: "PUT",
+      });
+      if (!response.ok) {
+        console.log("Error while promoting user");
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Error while promoting user");
+      throw new Error(`Request failed userService.promoteUser()`);
+    }
+  }
+
+  async demoteUser(userId: number, accessToken: string) {
+    try {
+      const response = await fetch(`${BASE_URL}/user/demote/${userId}`, {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        method: "PUT",
+      });
+      if (!response.ok) {
+        console.log("Error while demoting user");
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Error while demoting user");
+      throw new Error(`Request failed userService.demoteUser()`);
+    }
+  }
 }
 
 export default new UserService();

@@ -132,11 +132,27 @@ public class UserService {
         return ResponseEntity.ok("Password changed");
     }
 
-    public void promoteUser(Long id) {
+    public ResponseEntity<?> promoteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().body("User does not exist");
+        }
+
         Authority adminAuthority = authorityRepository.findByAuthority("ADMIN").orElse(null);
         user.get().getAuthorities().add(adminAuthority);
         userRepository.save(user.get());
+        return ResponseEntity.ok("User Promoted");
+    }
 
+    public ResponseEntity<?> demoteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().body("User does not exist");
+        }
+        Authority adminAuthority = authorityRepository.findByAuthority("ADMIN").orElse(null);
+        user.get().getAuthorities().remove(adminAuthority);
+        userRepository.save(user.get());
+
+        return ResponseEntity.ok("User demoted");
     }
 }

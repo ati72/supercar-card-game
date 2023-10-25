@@ -45,6 +45,7 @@ export const Users = () => {
               <tr className="leaderboard-tr">
                 <th>ID</th>
                 <th>Username</th>
+                <th>Authorities</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -53,6 +54,9 @@ export const Users = () => {
                 <tr className="leaderboard-tr" key={user.id}>
                   <td className="leaderboard-td">{user.id}</td>
                   <td className="leaderboard-td">{user.username}</td>
+                  <td className="leaderboard-td">
+                    {user.authorities.map((auth) => ` ${auth.authority} `)}
+                  </td>
                   <td className="leaderboard-td">
                     <Link to={`/user/${user.id}`}>
                       <button className="login-button">Details</button>

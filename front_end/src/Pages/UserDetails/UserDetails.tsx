@@ -24,6 +24,22 @@ export const UserDetails = () => {
     fetchUser(userId);
   }, []);
 
+  async function handlePromoteUser(userId: number) {
+    try {
+      await UserService.promoteUser(userId, accessToken);
+    } catch (error) {
+      console.log("Error while promoting user");
+    }
+  }
+
+  async function handleDemoteUser(userId: number) {
+    try {
+      await UserService.demoteUser(userId, accessToken);
+    } catch (error) {
+      console.log("Error while demoting user");
+    }
+  }
+
   return (
     <div>
       {userInfo === null ? (
@@ -38,11 +54,35 @@ export const UserDetails = () => {
           User ID: {userInfo.id}
           <div>User Name: {userInfo.username}</div>
           <div>
+            User Authorities:
+            {userInfo.authorities?.map((auth) => (
+              <p key={auth.id}>{auth.authority}</p>
+            ))}
+          </div>
+          <div>
             <div>
-              <button className="login-button">Grant Admin Authority</button>
+              {!userInfo.authorities?.some(
+                (auth) => auth.authority === "ADMIN"
+              ) ? (
+                <button
+                  className="login-button"
+                  onClick={() => handlePromoteUser(userInfo.id)}
+                >
+                  Grant Admin Authority
+                </button>
+              ) : null}
             </div>
             <div>
-              <button className="login-button">Revoke Admin Authority</button>
+              {userInfo.authorities?.some(
+                (auth) => auth.authority === "ADMIN"
+              ) ? (
+                <button
+                  className="login-button"
+                  onClick={() => handleDemoteUser(userInfo.id)}
+                >
+                  Revoke Admin Authority
+                </button>
+              ) : null}
             </div>
             <div>
               <Link to="/users">

@@ -73,9 +73,13 @@ public class UserController {
     }
 
     @PutMapping("/promote/{id}")
-    public ResponseEntity<?> promoteUser(@PathVariable Long id ) {
-        userService.promoteUser(id);
-        return ResponseEntity.ok("User Promoted");
+    public ResponseEntity<?> promoteUser(@PathVariable Long id) {
+        return userService.promoteUser(id);
+    }
+
+    @PutMapping("demote/{id}")
+    public ResponseEntity<?> demoteUser(@PathVariable Long id) {
+        return userService.demoteUser(id);
     }
 
 //TODO front-end request dto -- field whick tells if game is won
