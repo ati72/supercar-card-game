@@ -8,6 +8,7 @@ export const Users = () => {
   // ide lehetne valami dto be-n és modellben megcsinálni itt aztn a típust hozzááadni a usestatehez...
   const [userList, setUserList] = useState<UserInfo[]>([]);
   const accessToken: string = localStorage.getItem("jwt") || "";
+  const userInfo: UserInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     async function fetchUsers() {
@@ -62,12 +63,15 @@ export const Users = () => {
                     <Link to={`/user/${user.id}`}>
                       <button className="login-button">Details</button>
                     </Link>
-                    <button
-                      className="login-button"
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Delete
-                    </button>
+                    {userInfo.id !== user.id && (
+                      <button
+                        className="login-button"
+                        onClick={() => handleDeleteUser(user.id)}
+                        disabled={userInfo.id === user.id}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
