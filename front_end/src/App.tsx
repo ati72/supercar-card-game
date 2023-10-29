@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Users } from "./Pages/Users/Users";
 import { UserDetails } from "./Pages/UserDetails/UserDetails";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
+import { UserInfo } from "./Model/UserInfo";
 
 function App() {
   const initialUserInfo = localStorage.getItem("userInfo")
@@ -25,9 +26,9 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(
     localStorage.getItem("jwt") !== "" && localStorage.getItem("jwt") !== null
   );
-  const [userInfo, setUserInfo] = useState<object>(initialUserInfo);
+  const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
 
-  const handleLoginSuccess = (userInfo: object) => {
+  const handleLoginSuccess = (userInfo: UserInfo) => {
     setIsSignedIn(true);
     setUserInfo(userInfo);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -95,7 +96,7 @@ function App() {
           path="profile"
           element={
             <PrivateRoute isSignedIn={isSignedIn}>
-              <Profile userInfo={userInfo} />
+              <Profile userInfo={userInfo.id} />
             </PrivateRoute>
           }
         ></Route>

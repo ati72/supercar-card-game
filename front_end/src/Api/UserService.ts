@@ -94,6 +94,27 @@ class UserService {
       throw new Error(`Request failed userService.demoteUser()`);
     }
   }
+
+  async getTop10(accessToken: string) {
+    try {
+      const response = await fetch(`${BASE_URL}/user/top`, {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        method: "GET",
+      });
+      if (!response.ok) {
+        console.log("Error while fetching top 10");
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.log("Error while getting top 10");
+      throw new Error(`Request failed userService.getTop10()`);
+    }
+  }
 }
 
 export default new UserService();

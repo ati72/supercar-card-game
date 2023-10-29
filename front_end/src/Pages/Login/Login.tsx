@@ -1,9 +1,10 @@
 import React from "react";
 import "../../index.css";
 import { LoginAndRegister } from "./components/LoginAndRegister";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const Login: React.FC<{
-  onLoginSuccess: (o: object) => void;
+  onLoginSuccess: (userInfo: UserInfo) => void;
 }> = (props) => {
   return (
     <LoginAndRegister

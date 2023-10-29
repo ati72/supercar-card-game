@@ -3,11 +3,12 @@ import { Link, useParams } from "react-router-dom";
 import UserService from "../../Api/UserService";
 import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
 import { UserInfo } from "../../Model/UserInfo";
+import { toast } from "react-toastify";
 
 export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
-  const [userInfo, setUserInfo] = useState<UserInfo | string>(""); // ezzel még valamit kezdeni kéne a string miatt... initial userinfo?
+  const [userInfo, setUserInfo] = useState<UserInfo | null>({}); // ezzel még valamit kezdeni kéne a string miatt... initial userinfo?
 
   useEffect(() => {
     async function fetchUser(userId: number) {
@@ -17,7 +18,7 @@ export const UserDetails = () => {
           return;
         }
         const userInfoResponse = await UserService.getUser(userId, accessToken);
-        setUserInfo(userInfoResponse);
+        setUserInfo(userInfoResponse); // backendről null jön, ha nincs olyan user
       } catch (error) {
         console.error("Error fetching users");
       }
@@ -28,7 +29,9 @@ export const UserDetails = () => {
   async function handlePromoteUser(userId: number) {
     try {
       await UserService.promoteUser(userId, accessToken);
+      toast.success("User promoted successfully!");
     } catch (error) {
+      toast.error("Error while promoting user!");
       console.log("Error while promoting user");
     }
   }
@@ -36,7 +39,9 @@ export const UserDetails = () => {
   async function handleDemoteUser(userId: number) {
     try {
       await UserService.demoteUser(userId, accessToken);
+      toast.success("User demoted successfully!");
     } catch (error) {
+      toast.error("Error while demoting user!");
       console.log("Error while demoting user");
     }
   }
@@ -60,6 +65,8 @@ export const UserDetails = () => {
               <p key={auth.id}>{auth.authority}</p>
             ))}
           </div>
+          <div>Matches played: {userInfo.gamesPlayed}</div>
+          <div>Matches won: {userInfo.gamesWon}</div>
           <div>
             <div>
               {!userInfo.authorities?.some(

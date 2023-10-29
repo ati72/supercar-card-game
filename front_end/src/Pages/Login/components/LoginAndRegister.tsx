@@ -2,11 +2,12 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../Api/api";
 import { toast } from "react-toastify";
+import { UserInfo } from "../../../Model/UserInfo";
 
 export const LoginAndRegister: React.FC<{
   title: string;
   mode: string;
-  onLoginSuccess: (o: object) => void;
+  onLoginSuccess: (userInfo: UserInfo) => void;
 }> = (props) => {
   const password = useRef("");
   const userName = useRef("");

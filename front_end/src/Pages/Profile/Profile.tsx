@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { NewPasswordModal } from "./components/NewPasswordModal";
+import { UserInfo } from "../../Model/UserInfo";
+import UserService from "../../Api/UserService";
 
-export const Profile: React.FC<{ userInfo: any }> = (props) => {
+export const Profile: React.FC<{ userInfo: number }> = (props) => {
   //TODO: local helyett api request!!!!! akkor userInfo prop mehet a kukába
   const [isNewPasswordModalActive, setIsNewPasswordModalActive] =
     useState<boolean>(false);
-
-  const userInfo2 = JSON.parse(localStorage.getItem("userInfo") || "");
+  const [user, setUser] = useState<UserInfo>({});
+  const accessToken = localStorage.getItem("jwt") || "";
 
   const handleCloseModal = () => {
     document.body.classList.remove("modal-open");
     setIsNewPasswordModalActive(false);
   };
 
+  useEffect(() => {
+    async function fetchUser(userId: number) {
+      try {
+        const response = await UserService.getUser(userId, accessToken);
+        setUser(response);
+      } catch (error) {
+        console.log("Error fetching user");
+      }
+    }
+    fetchUser(props.userInfo);
+  }, []);
+
   return (
     <div className="profile-container">
-      <h3>Profile name: {userInfo2.username}</h3>
-      <h3>Games played: {userInfo2.gamesPlayed}</h3>
-      <h3>Games won: {userInfo2.gamesWon}</h3>
+      <h3>Profile name: {user.username}</h3>
+      <h3>Games played: {user.gamesPlayed}</h3>
+      <h3>Games won: {user.gamesWon}</h3>
       <h3>Change Password</h3>
       <button
         className="login-button"
@@ -33,7 +47,7 @@ export const Profile: React.FC<{ userInfo: any }> = (props) => {
         <NewPasswordModal
           isNewPasswordModalActive={isNewPasswordModalActive}
           handleCloseModal={handleCloseModal}
-          username={userInfo2.username}
+          username={user.username}
         />
       )}
     </div>

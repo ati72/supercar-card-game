@@ -1,34 +1,23 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../Api/api";
 import { Link } from "react-router-dom";
+import UserService from "../../Api/UserService";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const Leaderboard = () => {
   const accessToken: string = localStorage.getItem("jwt") || "";
-  const [top10Users, setTop10Users] = useState<[]>([]);
+  const [top10Users, setTop10Users] = useState<UserInfo[]>([]);
 
   useEffect(() => {
-    getTop10();
-  }, []);
-
-  const getTop10 = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/user/top`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (!response.ok) {
-        console.log("Error while fetching top 10");
-        throw new Error("Error while fetching top 10");
+    async function fetchTop10() {
+      try {
+        const response = await UserService.getTop10(accessToken);
+        setTop10Users(response);
+      } catch (error) {
+        console.error("Error fetching top 10");
       }
-      const data = await response.json();
-      setTop10Users(data);
-    } catch (error) {
-      console.log("Error during top 10 fetch: " + error);
     }
-  };
+    fetchTop10();
+  }, []);
 
   return (
     <div className="leaderboard-container">
