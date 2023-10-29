@@ -9,6 +9,8 @@ export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
   const [userInfo, setUserInfo] = useState<UserInfo | null>({}); // ezzel még valamit kezdeni kéne a string miatt... initial userinfo?
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     async function fetchUser(userId: number) {
@@ -19,16 +21,21 @@ export const UserDetails = () => {
         }
         const userInfoResponse = await UserService.getUser(userId, accessToken);
         setUserInfo(userInfoResponse); // backendről null jön, ha nincs olyan user
+        const isAdmin: boolean = userInfoResponse.authorities.some(
+          (auth) => auth.authority === "ADMIN"
+        );
+        setIsAdmin(isAdmin);
       } catch (error) {
         console.error("Error fetching users");
       }
     }
     fetchUser(userId);
-  }, []);
+  }, [refresh]);
 
   async function handlePromoteUser(userId: number) {
     try {
       await UserService.promoteUser(userId, accessToken);
+      refresh ? setRefresh(false) : setRefresh(true);
       toast.success("User promoted successfully!");
     } catch (error) {
       toast.error("Error while promoting user!");
@@ -39,6 +46,7 @@ export const UserDetails = () => {
   async function handleDemoteUser(userId: number) {
     try {
       await UserService.demoteUser(userId, accessToken);
+      refresh ? setRefresh(false) : setRefresh(true);
       toast.success("User demoted successfully!");
     } catch (error) {
       toast.error("Error while demoting user!");
@@ -69,28 +77,21 @@ export const UserDetails = () => {
           <div>Matches won: {userInfo.gamesWon}</div>
           <div>
             <div>
-              {!userInfo.authorities?.some(
-                (auth) => auth.authority === "ADMIN"
-              ) ? (
-                <button
-                  className="login-button"
-                  onClick={() => handlePromoteUser(userInfo.id)}
-                >
-                  Grant Admin Authority
-                </button>
-              ) : null}
-            </div>
-            <div>
-              {userInfo.authorities?.some(
-                (auth) => auth.authority === "ADMIN"
-              ) ? (
+              {isAdmin ? (
                 <button
                   className="login-button"
                   onClick={() => handleDemoteUser(userInfo.id)}
                 >
                   Revoke Admin Authority
                 </button>
-              ) : null}
+              ) : (
+                <button
+                  className="login-button"
+                  onClick={() => handlePromoteUser(userInfo.id)}
+                >
+                  Grant Admin Authority
+                </button>
+              )}
             </div>
             <div>
               <Link to="/users">

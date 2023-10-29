@@ -7,7 +7,7 @@ export const ErrorPage = () => {
       <div>403</div>
       <div>Unauthorized</div>
       <Link to="/menu">
-        <button className="login-btn">Back</button>
+        <button className="login-button">Back</button>
       </Link>
     </FlexContainerCentered>
   );
