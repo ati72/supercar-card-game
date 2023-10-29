@@ -87,6 +87,7 @@ export const NewCardModal: React.FC<{
       return;
     }
 
+    //TODO: ezt valahogy a service-be?
     try {
       const response = await fetch(`${BASE_URL}/cards/save`, {
         method: "POST",

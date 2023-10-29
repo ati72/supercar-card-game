@@ -30,6 +30,7 @@ class UserService {
         method: "GET",
       });
       if (!response.ok) {
+        console.log("Error while fetching users");
         throw new Error(`Request failed with status: ${response.status}`);
       }
       return await response.json();

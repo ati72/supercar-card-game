@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Card } from "./components/Card";
-import { BASE_URL } from "../../Api/api";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CardModel } from "../../Model/Card";
 import { NewCardModal } from "./components/NewCardModal";
 import { UserInfo } from "../../Model/UserInfo";
+import CardService from "../../Api/CardService";
 
 export const Inventory = () => {
   const accessToken: string = localStorage.getItem("jwt") || "";
@@ -28,40 +28,29 @@ export const Inventory = () => {
   const [type, setType] = useState<string>("");
 
   useEffect(() => {
-    getCards();
+    fetchCards();
   }, []);
 
-  const getCards = async () => {
-    const response = await fetch(`${BASE_URL}/cards`, {
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${accessToken}`,
-      },
-      method: "GET",
-    });
-    if (!response.ok) {
-      console.log("Error while fetching cards");
-      throw new Error("Error while fetching cards");
+  async function fetchCards() {
+    try {
+      const cards = await CardService.getCards(accessToken);
+      setCards(cards);
+      console.log(cards);
+    } catch (error) {
+      console.log("Error fetching cards.");
+      throw new Error(`Request failed`);
     }
-    const data = await response.json();
-    setCards(data);
-    console.log(data);
-  };
+  }
 
-  const deleteCard = async (id: number) => {
-    const response = await fetch(`${BASE_URL}/cards/delete/${id}`, {
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${accessToken}`,
-      },
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      console.log("Error while deleting card");
-      throw new Error("Error while deleting card");
+  async function deleteCard(id: number) {
+    try {
+      await CardService.deleteCard(id, accessToken);
+      fetchCards();
+    } catch (error) {
+      console.log("Error deleting cards");
+      throw new Error("Request failed");
     }
-    getCards();
-  };
+  }
 
   const handleCloseModal = () => {
     document.body.classList.remove("modal-open");
@@ -251,7 +240,7 @@ export const Inventory = () => {
               imageUrl={card.imageUrl}
               isAdmin={isAdmin}
               deleteCard={deleteCard}
-              getCards={getCards}
+              getCards={fetchCards}
             />
           ))
         )}
@@ -261,7 +250,7 @@ export const Inventory = () => {
         <NewCardModal
           isNewCardModalActive={isNewCardModalActive}
           handleCloseModal={handleCloseModal}
-          getCards={getCards}
+          getCards={fetchCards}
         />
       )}
     </div>

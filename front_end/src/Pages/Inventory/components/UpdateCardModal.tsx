@@ -67,6 +67,7 @@ export const UpdateCardModal: React.FC<{
       imageUrl,
     } = formData;
 
+    //TODO: Ez servicebe???
     try {
       const response = await fetch(`${BASE_URL}/cards/${props.id}`, {
         method: "PUT",
