@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import UserService from "../../Api/UserService";
 import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
+import { UserInfo } from "../../Model/UserInfo";
 
 export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
-  const [userInfo, setUserInfo] = useState<UserInfo | string>(""); // ezzel még valamit kezdeni kéne...
+  const [userInfo, setUserInfo] = useState<UserInfo | string>(""); // ezzel még valamit kezdeni kéne a string miatt... initial userinfo?
 
   useEffect(() => {
     async function fetchUser(userId: number) {

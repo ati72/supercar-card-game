@@ -10,6 +10,7 @@ export const Menu = () => {
     navigate("/home");
   };
 
+  // ebből lehetne olyan isAdmin mint az inventoryban...
   const userInfo: UserInfo = JSON.parse(
     localStorage.getItem("userInfo") || "{}"
   );

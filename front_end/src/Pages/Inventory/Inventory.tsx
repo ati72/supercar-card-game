@@ -119,13 +119,11 @@ export const Inventory = () => {
     .filter((card) => !maxYear || card.productionYear <= parseInt(maxYear))
     .filter(
       (card) =>
-        !minDisplacement ||
-        card.displacement * 1000 >= parseFloat(minDisplacement)
+        !minDisplacement || card.displacement >= parseInt(minDisplacement)
     )
     .filter(
       (card) =>
-        !maxDisplacement ||
-        card.displacement * 1000 <= parseFloat(maxDisplacement)
+        !maxDisplacement || card.displacement <= parseInt(maxDisplacement)
     );
 
   return (
@@ -248,7 +246,7 @@ export const Inventory = () => {
               productionYear={card.productionYear}
               topSpeed={card.topSpeed}
               horsePower={card.horsePower}
-              displacement={card.displacement * 1000}
+              displacement={card.displacement}
               description={card.description}
               imageUrl={card.imageUrl}
               isAdmin={isAdmin}
