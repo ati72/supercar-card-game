@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { BASE_URL } from "../../../Api/api";
 import { toast } from "react-toastify";
+import CardService from "../../../Api/CardService";
 
 export const UpdateCardModal: React.FC<{
   isUpdateCardModalActive: boolean;
@@ -56,44 +56,19 @@ export const UpdateCardModal: React.FC<{
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const {
-      manufacturer,
-      type,
-      productionYear,
-      topSpeed,
-      horsePower,
-      displacement,
-      description,
-      imageUrl,
-    } = formData;
 
-    //TODO: Ez servicebe???
     try {
-      const response = await fetch(`${BASE_URL}/cards/${props.id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          manufacturer,
-          type,
-          productionYear,
-          topSpeed,
-          horsePower,
-          displacement,
-          description,
-          imageUrl,
-        }),
-      });
+      const response = await CardService.updateCard(
+        props.id,
+        formData,
+        accessToken
+      );
 
-      if (!response.ok) {
+      if (!response) {
         console.log("Error while submitting the form.");
-        // toast error
+        toast.error("Error while updating card.");
       }
-
       toast.success("Card updated.");
-      // toast success
       props.getCards();
     } catch (error) {
       console.error("Error while submitting the form.");

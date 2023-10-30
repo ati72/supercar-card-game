@@ -5,7 +5,6 @@ import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCent
 import { UserInfo } from "../../Model/UserInfo";
 
 export const Users = () => {
-  // ide lehetne valami dto be-n és modellben megcsinálni itt aztn a típust hozzááadni a usestatehez...
   const [userList, setUserList] = useState<UserInfo[]>([]);
   const accessToken: string = localStorage.getItem("jwt") || "";
   const userInfo: UserInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -23,8 +22,6 @@ export const Users = () => {
     }
     fetchUsers();
   }, []);
-
-  // TODO: Kéne valami csekk, hogy saját magad ne tudd törölni...
 
   const handleDeleteUser = async (userId: number) => {
     try {

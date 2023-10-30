@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { BASE_URL } from "../../../Api/api";
 import { toast } from "react-toastify";
+import CardService from "../../../Api/CardService";
 
 export const NewCardModal: React.FC<{
   isNewCardModalActive: boolean;
@@ -9,7 +9,6 @@ export const NewCardModal: React.FC<{
 }> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(props.isNewCardModalActive);
   const ref = useRef<HTMLDialogElement | null>(null);
-
   const initialFormData = {
     manufacturer: "",
     type: "",
@@ -20,14 +19,11 @@ export const NewCardModal: React.FC<{
     description: "",
     imageUrl: "",
   };
-
   const [formData, setFormData] = useState(initialFormData);
-
   const accessToken: string = localStorage.getItem("jwt") || "";
 
   useEffect(() => {
     const modalElement = ref.current;
-
     if (modalElement) {
       if (isModalOpen) {
         modalElement.showModal();
@@ -51,16 +47,6 @@ export const NewCardModal: React.FC<{
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const {
-      manufacturer,
-      type,
-      productionYear,
-      topSpeed,
-      horsePower,
-      displacement,
-      description,
-      imageUrl,
-    } = formData;
 
     if (formData.manufacturer.trim() === "") {
       toast.warn("Manufacturer needed.");
@@ -87,32 +73,14 @@ export const NewCardModal: React.FC<{
       return;
     }
 
-    //TODO: ezt valahogy a service-be?
     try {
-      const response = await fetch(`${BASE_URL}/cards/save`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          manufacturer,
-          type,
-          productionYear,
-          topSpeed,
-          horsePower,
-          displacement,
-          description,
-          imageUrl,
-        }),
-      });
-
-      if (response.ok) {
+      const response = await CardService.saveCard(formData, accessToken);
+      if (!response) {
+        console.error("Error while submitting the form");
+      } else {
         toast.success("Card saved");
         setFormData(initialFormData);
         props.getCards();
-      } else {
-        console.error("Error while submitting the form");
       }
     } catch (error) {
       console.error("Error: " + error);

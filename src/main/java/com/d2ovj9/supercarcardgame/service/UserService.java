@@ -155,4 +155,12 @@ public class UserService {
 
         return ResponseEntity.ok("User demoted");
     }
+
+    public int countUsers() {
+        return (int) userRepository.count();
+    }
+
+    public int countMods() {
+        return userRepository.countByAuthoritiesAuthority("ADMIN");
+    }
 }

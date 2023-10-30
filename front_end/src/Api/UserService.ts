@@ -1,7 +1,6 @@
 import { BASE_URL } from "./api";
 
 class UserService {
-  // Acces token contextbe kéne...
   async getUser(userId: number, accessToken: string) {
     try {
       const response = await fetch(`${BASE_URL}/user/${userId}`, {

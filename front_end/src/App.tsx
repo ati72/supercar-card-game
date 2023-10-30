@@ -86,7 +86,7 @@ function App() {
         <Route
           path="admin"
           element={
-            <PrivateRoute isSignedIn={isSignedIn} isAdmin={true}>
+            <PrivateRoute isSignedIn={isSignedIn} isAdminRoute={true}>
               <Admin />
             </PrivateRoute>
           }
@@ -112,7 +112,7 @@ function App() {
         <Route
           path="users"
           element={
-            <PrivateRoute isSignedIn={isSignedIn}>
+            <PrivateRoute isSignedIn={isSignedIn} isAdminRoute={true}>
               <Users />
             </PrivateRoute>
           }
@@ -120,7 +120,7 @@ function App() {
         <Route
           path="user/:userId"
           element={
-            <PrivateRoute isSignedIn={isSignedIn}>
+            <PrivateRoute isSignedIn={isSignedIn} isAdminRoute={true}>
               <UserDetails />
             </PrivateRoute>
           }

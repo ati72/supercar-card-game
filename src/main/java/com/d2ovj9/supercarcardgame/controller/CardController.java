@@ -1,7 +1,9 @@
 package com.d2ovj9.supercarcardgame.controller;
 
+import com.d2ovj9.supercarcardgame.dto.StatsResponse;
 import com.d2ovj9.supercarcardgame.entity.Card;
 import com.d2ovj9.supercarcardgame.service.CardService;
+import com.d2ovj9.supercarcardgame.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class CardController {
 
     private final CardService cardService;
+    private final UserService userService;
 
     @Autowired
-    public CardController(CardService cardService) {
+    public CardController(CardService cardService, UserService userService) {
         this.cardService = cardService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -32,6 +36,20 @@ public class CardController {
     public ResponseEntity<Optional<Card>> getCard(@PathVariable Long id) {
         Optional<Card> card = cardService.getCard(id);
         return ResponseEntity.ok(card);
+    }
+
+    @GetMapping("/getStats")
+    public ResponseEntity<?> getStats() {
+        int numOfCards = cardService.countCards();
+        int numOfUsers = userService.countUsers();
+        int numOfMods = userService.countMods();
+
+        StatsResponse response = new StatsResponse();
+        response.setNumOfCards(numOfCards);
+        response.setNumOfUsers(numOfUsers);
+        response.setNumOfMods(numOfMods);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/saveAll")
@@ -58,7 +76,6 @@ public class CardController {
         return ResponseEntity.ok("Card deleted");
     }
 
-    // TODO exceptionök, ne ok-t küldjön vissza, ha besült valami... + PUT req edit
 
 
 

@@ -73,5 +73,7 @@ public class CardService {
 
     }
 
-
+    public int countCards() {
+        return (int) cardRepository.count();
+    }
 }

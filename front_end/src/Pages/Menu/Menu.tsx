@@ -14,6 +14,9 @@ export const Menu = () => {
   const userInfo: UserInfo = JSON.parse(
     localStorage.getItem("userInfo") || "{}"
   );
+  const isAdmin: boolean = userInfo.authorities?.some(
+    (auth) => auth.authority === "ADMIN"
+  );
 
   return (
     <div className="menu-container">
@@ -29,7 +32,7 @@ export const Menu = () => {
       <Link to="../leaderboard">
         <button className="menu-button">Leaderboard</button>
       </Link>
-      {userInfo.authorities?.some((auth) => auth.authority == "ADMIN") && (
+      {isAdmin && (
         <Link to="../admin">
           <button className="menu-button">Admin</button>
         </Link>
