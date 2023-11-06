@@ -62,10 +62,17 @@ export const GameOptions = () => {
     navigate("/game", { state: newGameState });
   }
 
+  function handleBackClicked() {
+    navigate("/menu");
+  }
+
   return (
     <FlexContainerCentered>
       <button className="login-button" onClick={handleNewGameClicked}>
         New Game
+      </button>
+      <button className="login-button" onClick={handleBackClicked}>
+        Back
       </button>
     </FlexContainerCentered>
   );

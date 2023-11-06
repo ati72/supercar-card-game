@@ -350,3 +350,19 @@ body.modal-open {
   min-height: 100vh;
   background-color: var(--main-bg-color);
 }
+
+/*GAME STYLES*/
+.game-hand-container {
+  display: flex;
+}
+
+.game-card {
+  height: 250px;
+  width: 180px;
+  overflow: hidden;
+  border: 3px solid var(--orange);
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  background-color: var(--md-bg-color);
+}

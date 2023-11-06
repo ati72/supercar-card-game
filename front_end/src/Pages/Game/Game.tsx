@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { CardModel } from "../../Model/Card";
 import { GameState } from "../../Model/GameState";
 import { Card } from "../Inventory/components/Card";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { GameCard } from "../../Components/Cards/GameCard";
 
 export const Game = () => {
   const location = useLocation();
-  const gameState = location.state;
+  const gameState: GameState = location.state;
 
   useEffect(() => {
     console.log(gameState);
@@ -14,14 +15,14 @@ export const Game = () => {
 
   return (
     <div>
-      <div className="game-opponent-hand">
+      <div className="game-hand-container">
         {gameState.opponentHand.map((card) => (
-          <h1>{card.manufacturer}</h1>
+          <GameCard cardData={card} />
         ))}
       </div>
-      <div className="game-player-hand">
+      <div className="game-hand-container">
         {gameState.playerHand.map((card) => (
-          <h1>{card.manufacturer}</h1>
+          <GameCard cardData={card} />
         ))}
       </div>
     </div>
