@@ -61,8 +61,8 @@ public class SecurityConfig {
                         authz
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/user/register").permitAll()
+                                .requestMatchers("/api/cards/saveAll").permitAll()
                                 .requestMatchers("/api/user/delete/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/cards/saveAll").hasAuthority("ADMIN")
                                 .requestMatchers("api/cards/save").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "api/cards").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()

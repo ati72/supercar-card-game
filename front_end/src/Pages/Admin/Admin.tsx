@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { AdminInfoCard } from "../../Components/Cards/AdminInfoCard";
 import { useEffect, useState } from "react";
 import AdminService from "../../Api/AdminService";
+import StatsResponse from "../../Model/StatsResponse";
 
 export const Admin = () => {
-  const [stats, setStats] = useState({});
+  // ezt nem ellenőriztem lehet még bekavar?? type
+  const [stats, setStats] = useState<StatsResponse>({});
   const accessToken: string = localStorage.getItem("jwt") || "";
 
   useEffect(() => {

@@ -17,6 +17,7 @@ import { Users } from "./Pages/Users/Users";
 import { UserDetails } from "./Pages/UserDetails/UserDetails";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { UserInfo } from "./Model/UserInfo";
+import { GameOptions } from "./Pages/GameOptions/GameOptions";
 
 function App() {
   const initialUserInfo = localStorage.getItem("userInfo")
@@ -69,6 +70,14 @@ function App() {
         />
         <Route
           path="play"
+          element={
+            <PrivateRoute isSignedIn={isSignedIn}>
+              <GameOptions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="game"
           element={
             <PrivateRoute isSignedIn={isSignedIn}>
               <Game />
