@@ -134,7 +134,7 @@ export const Game = () => {
         ))}
       </div>
 
-      <div className="game-played-card-container">
+      <div className="game-played-card-container top">
         {"Your Points: " + gameState.playerPoints}
         <div className="game-card-container">
           {playerCard ? (
@@ -153,7 +153,7 @@ export const Game = () => {
         {"Opponent Points: " + gameState.opponentPoints}
       </div>
 
-      <div className="game-hand-container">
+      <div className="game-hand-container bottom">
         {gameState.playerHand.map((card) => (
           <GameCard
             key={card.id}

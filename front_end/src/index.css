@@ -356,6 +356,14 @@ body.modal-open {
   display: flex;
 }
 
+.game-hand-container.top {
+  margin-bottom: auto;
+}
+
+.game-hand-container.bottom {
+  margin-top: auto;
+}
+
 .game-card {
   height: 300px;
   width: 230px;
@@ -368,5 +376,7 @@ body.modal-open {
 }
 
 .game-played-card-container {
+  margin-top: 30px;
   display: flex;
+  gap: 64px;
 }
