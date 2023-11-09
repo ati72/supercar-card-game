@@ -8,12 +8,21 @@ import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCent
 export const Game = () => {
   const location = useLocation();
   const [gameState, setGameState] = useState(location.state);
+  const [playerPoints, setPlayerPoints] = useState(gameState.playerPoints);
+  const [opponentPoints, setOpponentPoints] = useState(
+    gameState.opponentPoints
+  );
   const [playerCard, setPlayerCard] = useState(null);
   const [opponentCard, setOpponentCard] = useState(null);
 
   useEffect(() => {
+    if (gameState.round > 0 && gameState.playerHand.length === 0) {
+      alert("You won");
+    } else if (gameState.round > 0 && gameState.opponentHand.length === 0) {
+      alert("Opponent won");
+    }
     console.log(gameState);
-  }, [opponentCard]);
+  }, [gameState]);
 
   function handlePlayerCardSelection(selectedCard: CardModel) {
     setPlayerCard(selectedCard);
@@ -27,9 +36,9 @@ export const Game = () => {
       setOpponentCard
     );
 
-    console.log("Player Card:", selectedCard);
-    console.log("Opponent Card:", opponentCard);
-    console.log(updatedOpponentHand + "TOOOUPDATEADHAND");
+    // console.log("Player Card:", selectedCard);
+    // console.log("Opponent Card:", opponentCard);
+    // console.log(updatedOpponentHand + "TOOOUPDATEADHAND");
 
     const winner = calculateRoundWinner(gameState, opponentCard, selectedCard);
 
@@ -39,11 +48,13 @@ export const Game = () => {
       const [drawnCard, updatedDeck] = drawCard(gameState.deck);
       updatedOpponentHand = [...updatedOpponentHand, drawnCard];
       setUpdatedDeck = updatedDeck;
+      setPlayerPoints((prevPoints) => prevPoints + 1);
       console.log("UPDATED!!" + updatedOpponentHand);
     } else if (winner === "Opponent") {
       const [drawnCard, updatedDeck] = drawCard(gameState.deck);
       updatedPlayerHand = [...updatedPlayerHand, drawnCard];
       setUpdatedDeck = updatedDeck;
+      setOpponentPoints((prevPoints) => prevPoints + 1);
       console.log("UPDATED!!" + updatedPlayerHand);
     }
 
@@ -51,12 +62,16 @@ export const Game = () => {
 
     const updatedGameState: GameState = {
       ...gameState,
+      playerPoints: playerPoints,
+      opponentPoints: opponentPoints,
       deck: setUpdatedDeck,
       playerHand: updatedPlayerHand,
       opponentHand: updatedOpponentHand,
       round: updatedRound,
     };
     setGameState(updatedGameState);
+    console.log("ITITITIT" + playerPoints);
+    console.log("OPPO" + opponentPoints);
   }
 
   function simulateOpponentMove(gameState: GameState, setOpponentCard) {
@@ -118,12 +133,25 @@ export const Game = () => {
           <GameCard cardData={card} key={card.id} />
         ))}
       </div>
-      {playerCard && (
-        <div className="game-played-card-container">
-          {<GameCard key={playerCard.id} cardData={playerCard} />}
-          {<GameCard key={opponentCard.id} cardData={opponentCard} />}
+
+      <div className="game-played-card-container">
+        {"Your Points: " + gameState.playerPoints}
+        <div className="game-card-container">
+          {playerCard ? (
+            <GameCard key={playerCard.id} cardData={playerCard} />
+          ) : (
+            "Play a card"
+          )}
         </div>
-      )}
+        <div className="game-card-container">
+          {opponentCard ? (
+            <GameCard key={opponentCard.id} cardData={opponentCard} />
+          ) : (
+            "Play a card"
+          )}
+        </div>
+        {"Opponent Points: " + gameState.opponentPoints}
+      </div>
 
       <div className="game-hand-container">
         {gameState.playerHand.map((card) => (
