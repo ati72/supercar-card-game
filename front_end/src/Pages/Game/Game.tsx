@@ -18,34 +18,48 @@ export const Game = () => {
   function handlePlayerCardSelection(selectedCard: CardModel) {
     setPlayerCard(selectedCard);
 
-    const updatedPlayerHand = gameState.playerHand.filter(
+    let updatedPlayerHand = gameState.playerHand.filter(
       (card) => card.id !== selectedCard.id
     );
 
-    const [updatedOpponentHand, opponentCard] = simulateOpponentMove(
+    let [updatedOpponentHand, opponentCard] = simulateOpponentMove(
       gameState,
-      setOpponentCard,
-      setGameState
+      setOpponentCard
     );
 
     console.log("Player Card:", selectedCard);
     console.log("Opponent Card:", opponentCard);
+    console.log(updatedOpponentHand + "TOOOUPDATEADHAND");
 
-    const updatedGameState = {
+    const winner = calculateRoundWinner(gameState, opponentCard, selectedCard);
+
+    let setUpdatedDeck;
+
+    if (winner === "Player") {
+      const [drawnCard, updatedDeck] = drawCard(gameState.deck);
+      updatedOpponentHand = [...updatedOpponentHand, drawnCard];
+      setUpdatedDeck = updatedDeck;
+      console.log("UPDATED!!" + updatedOpponentHand);
+    } else if (winner === "Opponent") {
+      const [drawnCard, updatedDeck] = drawCard(gameState.deck);
+      updatedPlayerHand = [...updatedPlayerHand, drawnCard];
+      setUpdatedDeck = updatedDeck;
+      console.log("UPDATED!!" + updatedPlayerHand);
+    }
+
+    const updatedRound = gameState.round + 1;
+
+    const updatedGameState: GameState = {
       ...gameState,
+      deck: setUpdatedDeck,
       playerHand: updatedPlayerHand,
       opponentHand: updatedOpponentHand,
+      round: updatedRound,
     };
     setGameState(updatedGameState);
-
-    calculateRoundWinner(gameState, opponentCard, selectedCard);
   }
 
-  function simulateOpponentMove(
-    gameState: GameState,
-    setOpponentCard,
-    setGameState
-  ) {
+  function simulateOpponentMove(gameState: GameState, setOpponentCard) {
     console.log("simulateOpponentMove called");
     const { opponentHand } = gameState;
     // Generate a random index to select a card
@@ -75,28 +89,14 @@ export const Game = () => {
 
     if (playerCard[gameState.gameMode] < opponentCard[gameState.gameMode]) {
       console.log("Opponent wins");
-      const [drawnCard, updatedDeck] = drawCard(gameState.deck);
-      const updatedOpponentHand = [gameState.opponentHand, drawnCard];
-      const updatedGameState = {
-        ...gameState,
-        opponentHand: updatedOpponentHand,
-        deck: updatedDeck,
-      };
-      setGameState(updatedGameState);
+      const winner: string = "Opponent";
+      return winner;
     } else if (
       playerCard[gameState.gameMode] > opponentCard[gameState.gameMode]
     ) {
-      const [drawnCard, updatedDeck] = drawCardFromDeck(gameState.deck);
-      const updatedPlayerHand = [...gameState.playerHand, drawnCard];
-
-      const updatedGameState = {
-        ...gameState,
-        playerHand: updatedPlayerHand,
-        deck: updatedDeck,
-      };
-
-      setGameState(updatedGameState);
       console.log("PLayer wins round");
+      const winner: string = "Player";
+      return winner;
     } else {
       console.log("It's a tie");
     }
