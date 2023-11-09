@@ -366,3 +366,7 @@ body.modal-open {
   border-radius: 15px;
   background-color: var(--md-bg-color);
 }
+
+.game-played-card-container {
+  display: flex;
+}

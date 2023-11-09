@@ -50,7 +50,7 @@ export const GameOptions = () => {
     console.log(deck);
     console.log(playerHand + "ADASDASDSAD");
     const newGameState = new GameState(
-      "top-speed",
+      "topSpeed",
       deck,
       playerHand,
       opponentHand,

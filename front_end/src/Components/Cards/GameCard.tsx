@@ -1,9 +1,12 @@
 import { CardModel } from "../../Model/Card";
 import defaultCarImage from "../../assets/default-car.png";
 
-export const GameCard: React.FC<{ cardData: CardModel }> = (props) => {
+export const GameCard: React.FC<{
+  cardData: CardModel;
+  onClick?: () => void;
+}> = (props) => {
   return (
-    <div className="game-card">
+    <div className="game-card" onClick={props.onClick}>
       <img
         className="inventory-card-image"
         src={defaultCarImage}
