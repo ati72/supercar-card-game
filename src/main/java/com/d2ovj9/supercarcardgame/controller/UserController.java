@@ -98,6 +98,18 @@ public class UserController {
 //        return ResponseEntity.ok("User updated");
 //    }
 
+    @PutMapping("winner/{id}")
+    public ResponseEntity<?> winner(@PathVariable Long id) {
+        userService.winner(id);
+        return ResponseEntity.ok("User games updated");
+    }
+
+    @PutMapping("loser/{id}")
+    public ResponseEntity<?> loser(@PathVariable Long id) {
+        userService.loser(id);
+        return ResponseEntity.ok("User games updated");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

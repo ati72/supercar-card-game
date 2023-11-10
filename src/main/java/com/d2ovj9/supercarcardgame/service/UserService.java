@@ -162,4 +162,23 @@ public class UserService {
     public int countMods() {
         return userRepository.countByAuthoritiesAuthority("ADMIN");
     }
+
+    public void winner(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return;
+        }
+        user.get().setGamesPlayed(user.get().getGamesPlayed() + 1);
+        user.get().setGamesWon(user.get().getGamesWon() + 1);
+        userRepository.save(user.get());
+    }
+
+    public void loser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return;
+        }
+        user.get().setGamesPlayed(user.get().getGamesPlayed() + 1);
+        userRepository.save(user.get());
+    }
 }

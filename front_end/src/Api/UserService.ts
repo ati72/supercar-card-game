@@ -115,6 +115,44 @@ class UserService {
       throw new Error(`Request failed userService.getTop10()`);
     }
   }
+
+  async winner(accessToken: string, userId: number) {
+    try {
+      const response = await fetch(`${BASE_URL}/user/winner/${userId}`, {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        method: "PUT",
+      });
+      if (!response.ok) {
+        console.log("Error while updating user wins.");
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Error while updating user wins.");
+      throw new Error("Request failed userService.winner()");
+    }
+  }
+
+  async loser(accessToken: string, userId: number) {
+    try {
+      const response = await fetch(`${BASE_URL}/user/loser/${userId}`, {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        method: "PUT",
+      });
+      if (!response.ok) {
+        console.log("Error while updating user games.");
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Error while updating user games.");
+      throw new Error("Request failed userService.loser()");
+    }
+  }
 }
 
 export default new UserService();

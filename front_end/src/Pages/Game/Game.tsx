@@ -4,6 +4,8 @@ import { GameState } from "../../Model/GameState";
 import { useLocation } from "react-router-dom";
 import { GameCard } from "../../Components/Cards/GameCard";
 import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
+import { UserInfo } from "../../Model/UserInfo";
+import UserService from "../../Api/UserService";
 
 export const Game = () => {
   const location = useLocation();
@@ -14,11 +16,33 @@ export const Game = () => {
   );
   const [playerCard, setPlayerCard] = useState(null);
   const [opponentCard, setOpponentCard] = useState(null);
+  const userId: UserInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const accessToken: string = localStorage.getItem("jwt");
 
   useEffect(() => {
+    async function updateStatsWin() {
+      try {
+        const response = await UserService.winner(accessToken, userId.id);
+        console.log(response);
+      } catch (error) {
+        console.log("Error updating stats.");
+      }
+    }
+
+    async function updateStatsLose() {
+      try {
+        const response = await UserService.loser(accessToken, userId.id);
+        console.log(response);
+      } catch (error) {
+        console.log("Error updating stats.");
+      }
+    }
+
     if (gameState.round > 0 && gameState.playerHand.length === 0) {
+      updateStatsWin();
       alert("You won");
     } else if (gameState.round > 0 && gameState.opponentHand.length === 0) {
+      updateStatsLose();
       alert("Opponent won");
     }
     console.log(gameState);
