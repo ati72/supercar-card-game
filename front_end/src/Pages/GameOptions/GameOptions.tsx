@@ -9,6 +9,7 @@ export const GameOptions = () => {
   const [playerHand, setPlayerHand] = useState([]);
   const [opponentHand, setOpponentHand] = useState([]);
   const [gameState, setGameState] = useState(null);
+  const [selectMode, setSelectMode] = useState("");
   const accessToken: string = localStorage.getItem("jwt") || "";
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ export const GameOptions = () => {
     console.log(deck);
     console.log(playerHand + "ADASDASDSAD");
     const newGameState = new GameState(
-      "topSpeed",
+      selectMode,
       deck,
       playerHand,
       opponentHand,
@@ -68,6 +69,42 @@ export const GameOptions = () => {
 
   return (
     <FlexContainerCentered>
+      <div>
+        <h1>Select game mode</h1>
+        <div>
+          <label>
+            Top Speed
+            <input
+              type="radio"
+              value="topSpeed"
+              checked={selectMode === "topSpeed"}
+              onChange={() => setSelectMode("topSpeed")}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Displacement
+            <input
+              type="radio"
+              value="displacement"
+              checked={selectMode === "displacement"}
+              onChange={() => setSelectMode("displacement")}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Horsepower
+            <input
+              type="radio"
+              value="horsePower"
+              checked={selectMode === "horsePower"}
+              onChange={() => setSelectMode("horsePower")}
+            />
+          </label>
+        </div>
+      </div>
       <button className="login-button" onClick={handleNewGameClicked}>
         New Game
       </button>
