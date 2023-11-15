@@ -6,8 +6,8 @@ export const AdminInfoCard: React.FC<{
 }> = (props) => {
   return (
     <div className="admin-info-card">
-      <div>{props.infoData}</div>
-      <div>{props.infoTitle}</div>
+      <div style={{ fontSize: "42px" }}>{props.infoData}</div>
+      <div style={{ textAlign: "center" }}>{props.infoTitle}</div>
     </div>
   );
 };

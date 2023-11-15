@@ -25,23 +25,33 @@ export const Admin = () => {
   return (
     <div className="admin-container">
       <h1>Admin</h1>
-      <AdminInfoCard infoData={stats.numOfUsers} infoTitle="Number of users" />
-      <AdminInfoCard infoData={stats.numOfMods} infoTitle="Number of mods" />
-      <AdminInfoCard infoData={stats.numOfCards} infoTitle="Number of cards" />
-      <div>
-        <Link to="/users">
-          <button className="login-button">Manage Users</button>
-        </Link>
+      <div className="admin-info-card-container">
+        <AdminInfoCard
+          infoData={stats.numOfUsers}
+          infoTitle="Number of users"
+        />
+        <AdminInfoCard infoData={stats.numOfMods} infoTitle="Number of mods" />
+        <AdminInfoCard
+          infoData={stats.numOfCards}
+          infoTitle="Number of cards"
+        />
       </div>
-      <div>
-        <Link to="/inventory">
-          <button className="login-button">Manage Cards</button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/menu">
-          <button className="login-button">Back</button>
-        </Link>
+      <div className="admin-button-container">
+        <div>
+          <Link to="/users">
+            <button className="login-button">Manage Users</button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/inventory">
+            <button className="login-button">Manage Cards</button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/menu">
+            <button className="login-button">Back</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

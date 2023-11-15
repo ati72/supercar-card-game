@@ -33,7 +33,9 @@ export const Profile: React.FC<{ userInfo: number }> = (props) => {
       <h3>Profile name: {user.username}</h3>
       <h3>Games played: {user.gamesPlayed}</h3>
       <h3>Games won: {user.gamesWon}</h3>
-      <h3>Change Password</h3>
+      <h3>
+        Win percentage: {((user.gamesWon / user.gamesPlayed) * 100).toFixed(2)}%
+      </h3>
       <button
         className="login-button"
         onClick={() => setIsNewPasswordModalActive(true)}

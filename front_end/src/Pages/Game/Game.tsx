@@ -6,6 +6,7 @@ import { GameCard } from "../../Components/Cards/GameCard";
 import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCentered";
 import { UserInfo } from "../../Model/UserInfo";
 import UserService from "../../Api/UserService";
+import { GameOverModal } from "./components/GameOverModal";
 
 export const Game = () => {
   const location = useLocation();
@@ -16,6 +17,10 @@ export const Game = () => {
   );
   const [playerCard, setPlayerCard] = useState(null);
   const [opponentCard, setOpponentCard] = useState(null);
+  const [matchWinner, setMatchWinner] = useState("");
+  const [isGameOverModalActive, setIsGameOverModalActive] =
+    useState<boolean>(false);
+
   const userId: UserInfo = JSON.parse(localStorage.getItem("userInfo"));
   const accessToken: string = localStorage.getItem("jwt");
 
@@ -40,10 +45,12 @@ export const Game = () => {
 
     if (gameState.round > 0 && gameState.playerHand.length === 0) {
       updateStatsWin();
-      alert("You won");
+      setMatchWinner("User");
+      setIsGameOverModalActive(true);
     } else if (gameState.round > 0 && gameState.opponentHand.length === 0) {
       updateStatsLose();
-      alert("Opponent won");
+      setMatchWinner("Opponent");
+      setIsGameOverModalActive(true);
     }
     console.log(gameState);
   }, [gameState]);
@@ -190,6 +197,12 @@ export const Game = () => {
           />
         ))}
       </div>
+      {isGameOverModalActive && (
+        <GameOverModal
+          isGameOverModalActive={isGameOverModalActive}
+          winner={matchWinner}
+        />
+      )}
     </FlexContainerCentered>
   );
 };
