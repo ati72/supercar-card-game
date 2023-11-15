@@ -9,7 +9,9 @@ export const GameCard: React.FC<{
     <div className="game-card" onClick={props.onClick}>
       <img
         className="inventory-card-image"
-        src={defaultCarImage}
+        src={
+          props.cardData.imageUrl ? props.cardData.imageUrl : defaultCarImage
+        }
         alt="Car Image"
       />
       <div className="inventory-card-details">

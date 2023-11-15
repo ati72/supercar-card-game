@@ -30,9 +30,9 @@ public class UserController {
     }
 
     @PostConstruct
-    public void createAdmin() {
-        userService.createAdmin();
-        System.out.println("Admin Created");
+    public void createAuthorities() {
+        userService.createAuthorities();
+        System.out.println("Authorities Created");
     }
 
     @GetMapping("/all")
@@ -52,6 +52,12 @@ public class UserController {
     public ResponseEntity<List<User>> getTop10Users() {
         List<User> users = userService.findTop10User();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("initAdmin")
+    public ResponseEntity<?> createAdmin() {
+        userService.createAdmin();
+        return ResponseEntity.ok("Admin created");
     }
 
     @PostMapping ("/register")
@@ -82,21 +88,6 @@ public class UserController {
     public ResponseEntity<?> demoteUser(@PathVariable Long id) {
         return userService.demoteUser(id);
     }
-
-//TODO front-end request dto -- field whick tells if game is won
-//    @PutMapping("/update_stats/{id}")
-//    public ResponseEntity<?> updateStats(@RequestBody ide kell egy dto request, @PathVariable Long id) {
-//        Optional<User> userToUpdate = userService.getUser(id);
-//        User user = userToUpdate.get();
-//        if (megynerte a meccset) {
-//            user.setGamesPlayed(user.getGamesPlayed() + 1);
-//            user.setGamesWon(user.getGamesWon() + 1);
-//        } else if (nem nyert) {
-//            user.setGamesPlayed(user.getGamesPlayed() + 1);
-//        }
-//        userService.registerUser(user);
-//        return ResponseEntity.ok("User updated");
-//    }
 
     @PutMapping("winner/{id}")
     public ResponseEntity<?> winner(@PathVariable Long id) {

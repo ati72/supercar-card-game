@@ -65,7 +65,7 @@ public class CardService {
             if (card.getDisplacement() != 0) {
                 cardToUpdate.get().setDisplacement(card.getDisplacement());
             }
-            if (card.getImageUrl() != null && card.getImageUrl().trim().isEmpty()) {
+            if (card.getImageUrl() != null && !card.getImageUrl().trim().isEmpty()) {
                 cardToUpdate.get().setImageUrl(card.getImageUrl());
             }
             cardRepository.save(cardToUpdate.get());

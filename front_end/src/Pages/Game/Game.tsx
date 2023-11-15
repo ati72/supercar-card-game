@@ -80,6 +80,8 @@ export const Game = () => {
       setUpdatedDeck = updatedDeck;
       setOpponentPoints((prevPoints) => prevPoints + 1);
       console.log("UPDATED!!" + updatedPlayerHand);
+    } else if (winner === "TIE") {
+      setUpdatedDeck = [...gameState.deck];
     }
 
     const updatedRound = gameState.round + 1;
@@ -138,6 +140,8 @@ export const Game = () => {
       return winner;
     } else {
       console.log("It's a tie");
+      const winner: string = "Tie";
+      return winner;
     }
   }
 

@@ -25,59 +25,34 @@ public class UserService {
         this.encoder = encoder;
     }
 
-//    public void createAuthorities() {
-//        Authority adminAuthority = new Authority();
-//        adminAuthority.setAuthority("ADMIN");
-//        authorityRepository.save(adminAuthority);
-//        Authority userAuthority = new Authority();
-//        userAuthority.setAuthority("USER");
-//        authorityRepository.save(userAuthority);
-//    }
-
-//    public void createAdmin() {
-//        Authority adminAuthority = new Authority();
-//        adminAuthority.setAuthority("ADMIN");
-//        authorityRepository.save(adminAuthority);
-//        Authority userAuthority = new Authority();
-//        userAuthority.setAuthority("USER");
-//        authorityRepository.save(userAuthority);
-//
-//
-//        Authority adminAuthority2 = authorityRepository.findByAuthority("ADMIN").orElse(null);
-//        Authority userAuthority2 = authorityRepository.findByAuthority("USER").orElse(null);
-//
-//        if (adminAuthority == null || userAuthority == null) {
-//            System.out.println("SZAR");
-//            return;
-//        }
-//
-//        User admin = new User();
-//        admin.setUsername("admin");
-//        admin.getAuthorities().add(adminAuthority2);
-//        admin.getAuthorities().add(userAuthority2);
-//
-//        admin.setPassword(encoder.getPasswordEncoder().encode("admin"));
-//        userRepository.save(admin);
-//    }
-
-    public void createAdmin() {
-        // Create and save authorities
+    public void createAuthorities() {
         Authority adminAuthority = new Authority();
         adminAuthority.setAuthority("ADMIN");
         authorityRepository.save(adminAuthority);
-
         Authority userAuthority = new Authority();
         userAuthority.setAuthority("USER");
         authorityRepository.save(userAuthority);
+    }
 
 
+
+    public void createAdmin() {
+        // Create and save authorities
+//        Authority adminAuthority = new Authority();
+//        adminAuthority.setAuthority("ADMIN");
+//        authorityRepository.save(adminAuthority);
+//
+//        Authority userAuthority = new Authority();
+//        userAuthority.setAuthority("USER");
+//        authorityRepository.save(userAuthority);
 
         // Create the admin user and associate authorities
         User admin = new User();
         admin.setUsername("admin");
-
-
         admin.setPassword(encoder.getPasswordEncoder().encode("admin"));
+        Optional<Authority> adminAuthority = authorityRepository.findByAuthority("ADMIN");
+        Optional<Authority> userAuthority = authorityRepository.findByAuthority("USER");
+        admin.setAuthorities(Arrays.asList(adminAuthority.get(), userAuthority.get()));
         userRepository.save(admin);
     }
 

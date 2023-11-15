@@ -8,8 +8,8 @@ export const GameOptions = () => {
   const [deck, setDeck] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
   const [opponentHand, setOpponentHand] = useState([]);
-  const [gameState, setGameState] = useState(null);
-  const [selectMode, setSelectMode] = useState("");
+  //const [gameState, setGameState] = useState(null);
+  const [selectMode, setSelectMode] = useState("topSpeed");
   const accessToken: string = localStorage.getItem("jwt") || "";
   const navigate = useNavigate();
 

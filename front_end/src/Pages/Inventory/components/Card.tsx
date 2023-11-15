@@ -23,6 +23,7 @@ export const Card: React.FC<{
   };
 
   const handleCloseUpdateCardModal = () => {
+    document.body.classList.remove("modal-open");
     setIsUpdateCardModalActive(false);
   };
 
@@ -30,7 +31,7 @@ export const Card: React.FC<{
     <div className="inventory-card">
       <img
         className="inventory-card-image"
-        src={defaultCarImage}
+        src={props.imageUrl ? props.imageUrl : defaultCarImage}
         alt="Car Image"
       />
       <div className="inventory-card-details">
@@ -46,12 +47,22 @@ export const Card: React.FC<{
         <p style={{ color: "var(--blue)" }}>Horsepower: {props.horsePower}</p>
         <p style={{ color: "var(--blue)" }}>Top Speed: {props.topSpeed} km/h</p>
         <p style={{ color: "var(--blue)" }}>
-          Engine Displacement: {props.displacement} cc
+          Engine Displacement: {props.displacement} L
         </p>
         {props.isAdmin && (
           <>
-            <button onClick={() => handleOpenUpdateCardModal()}>Edit</button>
-            <button onClick={() => props.deleteCard(props.id)}>Delete</button>
+            <button
+              style={{ color: "black" }}
+              onClick={() => handleOpenUpdateCardModal()}
+            >
+              Edit
+            </button>
+            <button
+              style={{ color: "black" }}
+              onClick={() => props.deleteCard(props.id)}
+            >
+              Delete
+            </button>
           </>
         )}
       </div>
