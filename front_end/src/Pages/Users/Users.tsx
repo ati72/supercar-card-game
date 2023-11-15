@@ -6,6 +6,8 @@ import { UserInfo } from "../../Model/UserInfo";
 
 export const Users = () => {
   const [userList, setUserList] = useState<UserInfo[]>([]);
+  const [searchString, setSearchString] = useState<string>("");
+  const [searchOption, setSearchOption] = useState("username");
   const accessToken: string = localStorage.getItem("jwt") || "";
   const userInfo: UserInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -34,47 +36,89 @@ export const Users = () => {
     }
   };
 
+  const filteredUserList = userList.filter((user) => {
+    if (searchOption === "id") {
+      return user.id.toString().includes(searchString);
+    } else if (searchOption === "username") {
+      return user.username.toLowerCase().includes(searchString.toLowerCase());
+    }
+  });
+
   return (
     <div className="admin-container">
       <h1>Manage Users</h1>
       <FlexContainerCentered>
-        <div className="user-table-container">
-          <table className="users-table">
-            <thead className="leaderboard-th">
-              <tr className="leaderboard-tr">
-                <th>ID</th>
-                <th>Username</th>
-                <th>Authorities</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody className="leaderboard-tbody">
-              {userList.map((user) => (
-                <tr className="leaderboard-tr" key={user.id}>
-                  <td className="leaderboard-td">{user.id}</td>
-                  <td className="leaderboard-td">{user.username}</td>
-                  <td className="leaderboard-td">
-                    {user.authorities.map((auth) => ` ${auth.authority} `)}
-                  </td>
-                  <td className="leaderboard-td">
-                    <Link to={`/user/${user.id}`}>
-                      <button className="login-button">Details</button>
-                    </Link>
-                    {userInfo.id !== user.id && (
-                      <button
-                        className="login-button"
-                        onClick={() => handleDeleteUser(user.id)}
-                        disabled={userInfo.id === user.id}
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div>
+          <input
+            className="login-input"
+            type="text"
+            placeholder="Search"
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
+          />
+          <div>
+            <label>
+              Search by ID
+              <input
+                type="radio"
+                value="id"
+                checked={searchOption === "id"}
+                onChange={() => setSearchOption("id")}
+              />
+            </label>
+            <label>
+              Search by Username
+              <input
+                type="radio"
+                value="username"
+                checked={searchOption === "username"}
+                onChange={() => setSearchOption("username")}
+              />
+            </label>
+          </div>
         </div>
+        {filteredUserList.length > 0 ? (
+          <div className="user-table-container">
+            <table className="users-table">
+              <thead className="leaderboard-th">
+                <tr className="leaderboard-tr">
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Authorities</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody className="leaderboard-tbody">
+                {filteredUserList.map((user) => (
+                  <tr className="leaderboard-tr" key={user.id}>
+                    <td className="leaderboard-td">{user.id}</td>
+                    <td className="leaderboard-td">{user.username}</td>
+                    <td className="leaderboard-td">
+                      {user.authorities.map((auth) => ` ${auth.authority} `)}
+                    </td>
+                    <td className="leaderboard-td">
+                      <Link to={`/user/${user.id}`}>
+                        <button className="login-button">Details</button>
+                      </Link>
+                      {userInfo.id !== user.id && (
+                        <button
+                          className="login-button"
+                          onClick={() => handleDeleteUser(user.id)}
+                          disabled={userInfo.id === user.id}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <h1>No user found</h1>
+        )}
+
         <div>
           <Link to="/admin">
             <button className="login-button">Back</button>
