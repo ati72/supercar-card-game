@@ -7,10 +7,10 @@ export const Menu = () => {
   const signOut = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("gameState");
     navigate("/home");
   };
 
-  // ebből lehetne olyan isAdmin mint az inventoryban...
   const userInfo: UserInfo = JSON.parse(
     localStorage.getItem("userInfo") || "{}"
   );

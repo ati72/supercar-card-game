@@ -5,7 +5,6 @@ import AdminService from "../../Api/AdminService";
 import StatsResponse from "../../Model/StatsResponse";
 
 export const Admin = () => {
-  // ezt nem ellenőriztem lehet még bekavar?? type
   const [stats, setStats] = useState<StatsResponse>({});
   const accessToken: string = localStorage.getItem("jwt") || "";
 

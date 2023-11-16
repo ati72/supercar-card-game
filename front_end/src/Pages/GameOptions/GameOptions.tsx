@@ -11,6 +11,7 @@ export const GameOptions = () => {
   //const [gameState, setGameState] = useState(null);
   const [selectMode, setSelectMode] = useState("topSpeed");
   const accessToken: string = localStorage.getItem("jwt") || "";
+  const savedGame: GameState = JSON.parse(localStorage.getItem("gameState"));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,12 +56,18 @@ export const GameOptions = () => {
       deck,
       playerHand,
       opponentHand,
+      null,
+      null,
       0,
       false,
       0,
       0
     );
     navigate("/game", { state: newGameState });
+  }
+
+  function handleContinueSavedGame() {
+    navigate("/game", { state: savedGame });
   }
 
   function handleBackClicked() {
@@ -111,6 +118,15 @@ export const GameOptions = () => {
       <button className="login-button" onClick={handleBackClicked}>
         Back
       </button>
+      {savedGame ? (
+        <div>
+          <button className="login-button" onClick={handleContinueSavedGame}>
+            Continue
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </FlexContainerCentered>
   );
 };

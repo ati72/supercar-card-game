@@ -106,7 +106,5 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted");
     }
-
-    //TODO: majd kéne vmi amivel promotolni lehet user-t adminná
-
+    
 }

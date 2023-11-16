@@ -4,9 +4,14 @@ import defaultCarImage from "../../assets/default-car.png";
 export const GameCard: React.FC<{
   cardData: CardModel;
   onClick?: () => void;
+  opponentCard?: boolean;
 }> = (props) => {
   return (
-    <div className="game-card" onClick={props.onClick}>
+    <div
+      className="game-card"
+      onClick={props.onClick}
+      style={{ border: props.opponentCard ? "3px solid red" : "" }}
+    >
       <img
         className="inventory-card-image"
         src={

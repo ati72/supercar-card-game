@@ -48,7 +48,7 @@ export const Users = () => {
     <div className="admin-container">
       <h1>Manage Users</h1>
       <FlexContainerCentered>
-        <div>
+        <div className="admin-search">
           <input
             className="login-input"
             type="text"
@@ -57,24 +57,28 @@ export const Users = () => {
             onChange={(e) => setSearchString(e.target.value)}
           />
           <div>
-            <label>
-              Search by ID
-              <input
-                type="radio"
-                value="id"
-                checked={searchOption === "id"}
-                onChange={() => setSearchOption("id")}
-              />
-            </label>
-            <label>
-              Search by Username
-              <input
-                type="radio"
-                value="username"
-                checked={searchOption === "username"}
-                onChange={() => setSearchOption("username")}
-              />
-            </label>
+            <div>
+              <label>
+                Search by ID
+                <input
+                  type="radio"
+                  value="id"
+                  checked={searchOption === "id"}
+                  onChange={() => setSearchOption("id")}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Search by Username
+                <input
+                  type="radio"
+                  value="username"
+                  checked={searchOption === "username"}
+                  onChange={() => setSearchOption("username")}
+                />
+              </label>
+            </div>
           </div>
         </div>
         {filteredUserList.length > 0 ? (

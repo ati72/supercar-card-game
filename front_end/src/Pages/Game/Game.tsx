@@ -11,13 +11,13 @@ import { OpponentCard } from "../../Components/Cards/OpponentCard";
 
 export const Game = () => {
   const location = useLocation();
-  const [gameState, setGameState] = useState(location.state);
+  const [gameState, setGameState] = useState<GameState>(location.state);
   const [playerPoints, setPlayerPoints] = useState(gameState.playerPoints);
   const [opponentPoints, setOpponentPoints] = useState(
     gameState.opponentPoints
   );
-  const [playerCard, setPlayerCard] = useState(null);
-  const [opponentCard, setOpponentCard] = useState(null);
+  const [playerCard, setPlayerCard] = useState(gameState.playerCard);
+  const [opponentCard, setOpponentCard] = useState(gameState.opponentCard);
   const [statusMessage, setStatusMessage] = useState("Play a card");
   const [matchWinner, setMatchWinner] = useState("");
   const [isGameOverModalActive, setIsGameOverModalActive] =
@@ -48,10 +48,12 @@ export const Game = () => {
     if (gameState.round > 0 && gameState.playerHand.length === 0) {
       updateStatsWin();
       setMatchWinner("User");
+      localStorage.removeItem("gameState");
       setIsGameOverModalActive(true);
     } else if (gameState.round > 0 && gameState.opponentHand.length === 0) {
       updateStatsLose();
       setMatchWinner("Opponent");
+      localStorage.removeItem("gameState");
       setIsGameOverModalActive(true);
     }
     console.log(gameState);
@@ -68,10 +70,6 @@ export const Game = () => {
       gameState,
       setOpponentCard
     );
-
-    // console.log("Player Card:", selectedCard);
-    // console.log("Opponent Card:", opponentCard);
-    // console.log(updatedOpponentHand + "TOOOUPDATEADHAND");
 
     const winner = calculateRoundWinner(gameState, opponentCard, selectedCard);
 
@@ -102,12 +100,15 @@ export const Game = () => {
       ...gameState,
       playerPoints: playerPoints,
       opponentPoints: opponentPoints,
+      playerCard: selectedCard,
+      opponentCard: opponentCard,
       deck: setUpdatedDeck,
       playerHand: updatedPlayerHand,
       opponentHand: updatedOpponentHand,
       round: updatedRound,
     };
     setGameState(updatedGameState);
+    localStorage.setItem("gameState", JSON.stringify(updatedGameState));
     console.log("ITITITIT" + playerPoints);
     console.log("OPPO" + opponentPoints);
   }
@@ -115,16 +116,10 @@ export const Game = () => {
   function simulateOpponentMove(gameState: GameState, setOpponentCard) {
     console.log("simulateOpponentMove called");
     const { opponentHand } = gameState;
-    // Generate a random index to select a card
     const randomIndex = Math.floor(Math.random() * opponentHand.length);
-
-    // Get the card at the random index
     const selectedCard = opponentHand[randomIndex];
-
-    // Set the opponent card state
     setOpponentCard(selectedCard);
 
-    // Remove the selected card from the opponent's hand
     const updatedOpponentHand = [...opponentHand];
     updatedOpponentHand.splice(randomIndex, 1);
 
@@ -179,7 +174,6 @@ export const Game = () => {
       </div>
 
       <div className="game-played-card-container">
-        {"Your Points: " + gameState.playerPoints}
         <div className="game-card-container">
           {playerCard ? (
             <GameCard key={playerCard.id} cardData={playerCard} />
@@ -189,12 +183,15 @@ export const Game = () => {
         </div>
         <div className="game-card-container">
           {opponentCard ? (
-            <GameCard key={opponentCard.id} cardData={opponentCard} />
+            <GameCard
+              key={opponentCard.id}
+              cardData={opponentCard}
+              opponentCard={true}
+            />
           ) : (
             "Opponent's card"
           )}
         </div>
-        {"Opponent Points: " + gameState.opponentPoints}
       </div>
 
       <div className="game-hand-container bottom">
@@ -210,7 +207,13 @@ export const Game = () => {
           <div className="empty-container"></div>
         )}
       </div>
-      <div className="game-status-container">{statusMessage}</div>
+      <div className="game-status-container">
+        <div>Game Mode: {gameState.gameMode}</div>
+        {opponentCard ? opponentCard[gameState.gameMode] : ""}
+        {opponentCard ? " vs " : ""}
+        {playerCard ? playerCard[gameState.gameMode] : ""}
+        <div>{statusMessage}</div>
+      </div>
       {isGameOverModalActive && (
         <GameOverModal
           isGameOverModalActive={isGameOverModalActive}
