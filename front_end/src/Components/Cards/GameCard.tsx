@@ -33,7 +33,7 @@ export const GameCard: React.FC<{
           Top Speed: {props.cardData.topSpeed} km/h
         </p>
         <p style={{ color: "var(--blue)" }}>
-          Engine Displacement: {props.cardData.displacement} cc
+          Engine Displacement: {props.cardData.displacement} L
         </p>
       </div>
     </div>

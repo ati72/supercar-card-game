@@ -7,6 +7,7 @@ import { FlexContainerCentered } from "../../Components/Layout/FlexContainerCent
 import { UserInfo } from "../../Model/UserInfo";
 import UserService from "../../Api/UserService";
 import { GameOverModal } from "./components/GameOverModal";
+import { OpponentCard } from "../../Components/Cards/OpponentCard";
 
 export const Game = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ export const Game = () => {
   );
   const [playerCard, setPlayerCard] = useState(null);
   const [opponentCard, setOpponentCard] = useState(null);
+  const [statusMessage, setStatusMessage] = useState("Play a card");
   const [matchWinner, setMatchWinner] = useState("");
   const [isGameOverModalActive, setIsGameOverModalActive] =
     useState<boolean>(false);
@@ -80,15 +82,18 @@ export const Game = () => {
       updatedOpponentHand = [...updatedOpponentHand, drawnCard];
       setUpdatedDeck = updatedDeck;
       setPlayerPoints((prevPoints) => prevPoints + 1);
+      setStatusMessage("You win this round!");
       console.log("UPDATED!!" + updatedOpponentHand);
     } else if (winner === "Opponent") {
       const [drawnCard, updatedDeck] = drawCard(gameState.deck);
       updatedPlayerHand = [...updatedPlayerHand, drawnCard];
       setUpdatedDeck = updatedDeck;
       setOpponentPoints((prevPoints) => prevPoints + 1);
+      setStatusMessage("Opponent wins round!");
       console.log("UPDATED!!" + updatedPlayerHand);
     } else if (winner === "TIE") {
       setUpdatedDeck = [...gameState.deck];
+      setStatusMessage("It's a tie!");
     }
 
     const updatedRound = gameState.round + 1;
@@ -147,7 +152,7 @@ export const Game = () => {
       return winner;
     } else {
       console.log("It's a tie");
-      const winner: string = "Tie";
+      const winner: string = "TIE";
       return winner;
     }
   }
@@ -163,40 +168,49 @@ export const Game = () => {
 
   return (
     <FlexContainerCentered>
-      <div className="game-hand-container">
-        {gameState.opponentHand.map((card) => (
-          <GameCard cardData={card} key={card.id} />
-        ))}
+      <div className="game-hand-container top">
+        {gameState.opponentHand.length > 0 ? (
+          gameState.opponentHand.map((card) => (
+            <OpponentCard cardData={card} key={card.id} />
+          ))
+        ) : (
+          <div className="empty-container"></div>
+        )}
       </div>
 
-      <div className="game-played-card-container top">
+      <div className="game-played-card-container">
         {"Your Points: " + gameState.playerPoints}
         <div className="game-card-container">
           {playerCard ? (
             <GameCard key={playerCard.id} cardData={playerCard} />
           ) : (
-            "Play a card"
+            "Player's card"
           )}
         </div>
         <div className="game-card-container">
           {opponentCard ? (
             <GameCard key={opponentCard.id} cardData={opponentCard} />
           ) : (
-            "Play a card"
+            "Opponent's card"
           )}
         </div>
         {"Opponent Points: " + gameState.opponentPoints}
       </div>
 
       <div className="game-hand-container bottom">
-        {gameState.playerHand.map((card) => (
-          <GameCard
-            key={card.id}
-            cardData={card}
-            onClick={() => handlePlayerCardSelection(card)}
-          />
-        ))}
+        {gameState.playerHand.length > 0 ? (
+          gameState.playerHand.map((card) => (
+            <GameCard
+              key={card.id}
+              cardData={card}
+              onClick={() => handlePlayerCardSelection(card)}
+            />
+          ))
+        ) : (
+          <div className="empty-container"></div>
+        )}
       </div>
+      <div className="game-status-container">{statusMessage}</div>
       {isGameOverModalActive && (
         <GameOverModal
           isGameOverModalActive={isGameOverModalActive}

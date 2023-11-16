@@ -376,13 +376,16 @@ body.modal-open {
 /*GAME STYLES*/
 .game-hand-container {
   display: flex;
+  gap: 10px;
 }
 
 .game-hand-container.top {
+  padding-top: 10px;
   margin-bottom: auto;
 }
 
 .game-hand-container.bottom {
+  padding-bottom: 10px;
   margin-top: auto;
 }
 
@@ -398,7 +401,29 @@ body.modal-open {
 }
 
 .game-played-card-container {
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   gap: 64px;
+}
+
+.opponent-card-back {
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/assets/opponent-background.svg");
+}
+
+.empty-container {
+  height: 300px;
+}
+
+.game-status-container {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 30px;
 }
