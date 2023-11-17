@@ -47,40 +47,40 @@ export const Users = () => {
   return (
     <div className="admin-container">
       <h1>Manage Users</h1>
-      <FlexContainerCentered>
-        <div className="admin-search">
-          <input
-            className="login-input"
-            type="text"
-            placeholder="Search"
-            value={searchString}
-            onChange={(e) => setSearchString(e.target.value)}
-          />
+      <div className="admin-search">
+        <input
+          className="login-input"
+          type="text"
+          placeholder="Search"
+          value={searchString}
+          onChange={(e) => setSearchString(e.target.value)}
+        />
+        <div>
           <div>
-            <div>
-              <label>
-                Search by ID
-                <input
-                  type="radio"
-                  value="id"
-                  checked={searchOption === "id"}
-                  onChange={() => setSearchOption("id")}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Search by Username
-                <input
-                  type="radio"
-                  value="username"
-                  checked={searchOption === "username"}
-                  onChange={() => setSearchOption("username")}
-                />
-              </label>
-            </div>
+            <label>
+              Search by ID
+              <input
+                type="radio"
+                value="id"
+                checked={searchOption === "id"}
+                onChange={() => setSearchOption("id")}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Search by Username
+              <input
+                type="radio"
+                value="username"
+                checked={searchOption === "username"}
+                onChange={() => setSearchOption("username")}
+              />
+            </label>
           </div>
         </div>
+      </div>
+      <FlexContainerCentered>
         {filteredUserList.length > 0 ? (
           <div className="user-table-container">
             <table className="users-table">

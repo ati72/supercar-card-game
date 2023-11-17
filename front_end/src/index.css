@@ -323,12 +323,11 @@ body.modal-open {
   background-color: var(--main-bg-color);
   min-height: 100vh;
   padding: 10px;
-  position: relative;
 }
 
 .admin-search {
-  position: fixed;
-  top: 50px;
+  padding-top: 20px;
+  padding-bottom: 50px;
   width: 100%;
   display: flex;
   align-items: center;
