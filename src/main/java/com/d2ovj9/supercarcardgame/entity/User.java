@@ -19,6 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements UserDetails {
 
+    // Felhasználók modellje
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -72,5 +74,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    // getAuthorities?
 }

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Card {
 
+    // Kártyák modellje
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

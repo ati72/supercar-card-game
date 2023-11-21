@@ -33,6 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
 
+    // Authentikáció szűrő
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -40,35 +41,34 @@ public class JwtFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        // JWT kiszedése a kérés fejlécéből
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!StringUtils.hasText(header) || (StringUtils.hasText(header)) && !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // part after bearer... accesstoken
+        // "Bearer ..." utáni rész a JWT
         final String token = header.split(" ")[1].trim();
 
-        // Get user id and set it on the spring security context
+        // Felhasználó a tokenből kiolvasott id alapján
         UserDetails userDetails = userRepository
                 .findByUsername(jwtUtil.getUsernameFromToken(token))
                 .orElse(null);
 
-        // Get jwt token and validate
+        // Token validáció
         if (!jwtUtil.validateToken(token, userDetails)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Authentikáció
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
                 userDetails == null ? List.of() : userDetails.getAuthorities()
         );
-
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        // this is where the auth magic happens and the user is now valid
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
 

@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 public class Authority implements GrantedAuthority {
 
-    // lombok miatt szar lehet?
+    // Felhasználói jogosultságok modellje
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
