@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 export const UserDetails = () => {
   const { userId } = useParams();
   const accessToken = localStorage.getItem("jwt") || "";
-  const [userInfo, setUserInfo] = useState<UserInfo | null>({}); // ezzel még valamit kezdeni kéne a string miatt... initial userinfo?
+  const [userInfo, setUserInfo] = useState<UserInfo | null>({});
   const [isAdmin, setIsAdmin] = useState(false);
   const [refresh, setRefresh] = useState(false);
 

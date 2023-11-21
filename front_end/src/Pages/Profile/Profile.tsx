@@ -5,7 +5,6 @@ import { UserInfo } from "../../Model/UserInfo";
 import UserService from "../../Api/UserService";
 
 export const Profile: React.FC<{ userInfo: number }> = (props) => {
-  //TODO: átnevezni a userinfo-t...
   const [isNewPasswordModalActive, setIsNewPasswordModalActive] =
     useState<boolean>(false);
   const [user, setUser] = useState<UserInfo>({});

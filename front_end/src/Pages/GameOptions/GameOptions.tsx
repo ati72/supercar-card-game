@@ -28,7 +28,6 @@ export const GameOptions = () => {
   }, []);
 
   function handleNewGameClicked() {
-    // Draw 5 cards for the player
     const playerHand = [];
     for (let i = 0; i < 5; i++) {
       if (deck.length > 0) {
@@ -39,7 +38,6 @@ export const GameOptions = () => {
     }
     setPlayerHand(playerHand);
 
-    // Draw 5 cards for the opponent
     const opponentHand = [];
     for (let i = 0; i < 5; i++) {
       if (deck.length > 0) {
