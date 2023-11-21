@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomPasswordEncoder {
+    // Jelszó titkosító
+
     private final PasswordEncoder passwordEncoder;
 
     public CustomPasswordEncoder() {

@@ -15,10 +15,12 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    //Lehet implementálni kell a serializable-t
+    // JWT olvasó, előállító segédmetódusok
 
+    // 30 napig érvényesek
     public static final long JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60;
 
+    // signing key
     @Value("${jwt.secret}")
     private String secret;
 
@@ -49,7 +51,6 @@ public class JwtUtil {
     }
 
     private Boolean ignoreTokenExpiration(String token) {
-        // Specify tokens where expiration is ignored
         return false;
     }
 
