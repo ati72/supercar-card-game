@@ -27,6 +27,8 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
 
+    // Spring Security konfiguráció
+
     private final CustomPasswordEncoder encoder;
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtFilter jwtFilter;
@@ -41,22 +43,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // Lentebbi cors konfig hozzáadása a filterChainhez
                 .cors()
                 .configurationSource(corsConfigurationSource())
                 .and()
 
+                // Cross Site Request Forgery beállítások kikapcsolva az egyszerűség kedvéért
                 .csrf().disable()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
 
+                // Auth hiba exception
                 .exceptionHandling()
                     .authenticationEntryPoint(((request, response, authException) -> {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
                     }))
                 .and()
 
-
+                // Adott route-ok engedélyei, permitAll->nyilvános, hasAuthority->adott nevű jogosultságú felhasználóknak
+                // minden más útvonalon kell a jwt a kérésben
                 .authorizeHttpRequests((authz) ->
                         authz
                                 .requestMatchers("/api/auth/**").permitAll()
@@ -77,6 +83,8 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Az authentikációt megvalósító bean, userDetailsService-t használja az adatok lekéréséhez
+    // encoder-t a jelszavak ellenörzéséhez
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -85,12 +93,14 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
+    // Cross Origin Resource Sharing beállítások, engedélyezett portok (ahonnan jöhet kérés),
+    // engedélyezett HTTP metódusok
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedHeader("*");  // you can configure specific headers if needed
+        corsConfiguration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
