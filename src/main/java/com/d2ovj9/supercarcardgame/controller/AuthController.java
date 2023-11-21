@@ -30,13 +30,16 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // Bejelentkezés endpoint
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody AuthCredentialsRequest request, BindingResult bindingResult) {
+        // Validáció
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Bad Request");
         }
 
         try {
+            // Authentikáció
             Authentication authenticate = authenticationProvider
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
@@ -45,9 +48,8 @@ public class AuthController {
                             )
                     );
             User user = (User) authenticate.getPrincipal();
-            // so it doesn't send out the actual password
-            user.setPassword(null);
 
+            // Válasz fejlécek
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(HttpHeaders.AUTHORIZATION, jwtUtil.generateToken(user));
             httpHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "authorization");
@@ -55,14 +57,13 @@ public class AuthController {
             return ResponseEntity.ok()
                     .headers(httpHeaders)
                     .body(user);
-            // TODO: DTO so this doesn't send out password and stuff
 
         } catch (BadCredentialsException ex) {
             return ResponseEntity.badRequest().body("Bad Credentials");
         }
     }
 
-    // api/auth/validate?token=blabla
+    // Token érvényesség validáció, nincs használatban, nélküle is működik a jwt auth
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(@RequestParam String token, @AuthenticationPrincipal User user) {
         try {

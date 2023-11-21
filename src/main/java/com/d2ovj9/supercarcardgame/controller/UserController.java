@@ -29,37 +29,44 @@ public class UserController {
         this.encoder = encoder;
     }
 
+    // TODO: Exceptiönökre nem maradt idő...
+
+    // Authority-k létrehozása a program felálltakor
     @PostConstruct
     public void createAuthorities() {
         userService.createAuthorities();
         System.out.println("Authorities Created");
     }
 
+    // GET összes user
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUser() {
         List<User> users = userService.getAllUser();
         return ResponseEntity.ok(users);
     }
 
+    // GET adott id-vel rendelkező user
     @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> getUser(@PathVariable Long id) {
-        // TODO: talán valami mást kiküldeni, mint null, ha nem talált usert
         Optional<User> user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }
 
+    // GET top10 user, nyert játékok szerint
     @GetMapping("/top")
     public ResponseEntity<List<User>> getTop10Users() {
         List<User> users = userService.findTop10User();
         return ResponseEntity.ok(users);
     }
 
+    // Admin felhasználó létrehozására, nincs használatban, inkább setup sql fájlból kell feltölteni a db-t
     @GetMapping("initAdmin")
     public ResponseEntity<?> createAdmin() {
         userService.createAdmin();
         return ResponseEntity.ok("Admin created");
     }
 
+    // POST regisztrálós endpoint, új user elmentése
     @PostMapping ("/register")
     public ResponseEntity<?> register (@Valid @RequestBody RegisterUserRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -71,6 +78,7 @@ public class UserController {
 
     }
 
+    // PUT jelszó megváltoztatása
     @PutMapping("/changePassword")
     public ResponseEntity<?> changePassword(@Valid @RequestBody NewPasswordRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -79,28 +87,33 @@ public class UserController {
         return userService.changePassword(request.getUsername(), request.getOldPassword(), request.getNewPassword());
     }
 
+    // PUT Admin Authority beállítása adott id-jű usernek
     @PutMapping("/promote/{id}")
     public ResponseEntity<?> promoteUser(@PathVariable Long id) {
         return userService.promoteUser(id);
     }
 
+    // PUT Admin Authority elvétele adott id-jű usertől
     @PutMapping("demote/{id}")
     public ResponseEntity<?> demoteUser(@PathVariable Long id) {
         return userService.demoteUser(id);
     }
 
+    // PUT Nyertes játék után hívódik meg, adott id-jű userre games++, wins++
     @PutMapping("winner/{id}")
     public ResponseEntity<?> winner(@PathVariable Long id) {
         userService.winner(id);
         return ResponseEntity.ok("User games updated");
     }
 
+    // PUT Vesztes játék után hídik meg, adott id-jű userre games++
     @PutMapping("loser/{id}")
     public ResponseEntity<?> loser(@PathVariable Long id) {
         userService.loser(id);
         return ResponseEntity.ok("User games updated");
     }
 
+    // DELETE Adott id-jű user törlése
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
