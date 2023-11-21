@@ -20,26 +20,32 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
+    // Összes kártyák tömbjét állítja elő
     public List<Card> getAllCards() {
         return cardRepository.findAll();
     }
 
+    // Adott id-jű kártyát kér le
     public Optional<Card> getCard(Long id) {
         return cardRepository.findById(id);
     }
 
+    // Egyszerre több kártyát ment el, kártyák tömbjéből
     public void saveAllCards(List<Card> cards) {
         cardRepository.saveAll(cards);
     }
 
+    // Egy kártyát ment el
     public void saveCard(Card card) {
         cardRepository.save(card);
     }
 
+    // Adott id-jű kártyát töröl
     public void deleteCard(Long id) {
         cardRepository.deleteById(id);
     }
 
+    // Adott id-jű kártya update, ha a kérésben szerepel az adott mező, akkor update-eli a létező kártya adott mezőjét
     public void updateCard(Long id, Card card) {
         Optional<Card> cardToUpdate = Optional.ofNullable(cardRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Card not found")));
@@ -73,6 +79,7 @@ public class CardService {
 
     }
 
+    // DB-ben lévő kártyák számát állítja elő
     public int countCards() {
         return (int) cardRepository.count();
     }
