@@ -48,7 +48,7 @@ export const GameOptions = () => {
     }
     setOpponentHand(opponentHand);
     console.log(deck);
-    console.log(playerHand + "ADASDASDSAD");
+    console.log(playerHand + "playerHand");
     const newGameState = new GameState(
       selectMode,
       deck,

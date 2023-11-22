@@ -12,7 +12,7 @@ export const Admin = () => {
     async function fetchStats() {
       try {
         const response = await AdminService.getStats(accessToken);
-        console.log(response);
+        //console.log(response);
         setStats(response);
       } catch (error) {
         console.log("Error fetching stats.");

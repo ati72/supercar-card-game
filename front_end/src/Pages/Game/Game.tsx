@@ -109,8 +109,8 @@ export const Game = () => {
     };
     setGameState(updatedGameState);
     localStorage.setItem("gameState", JSON.stringify(updatedGameState));
-    console.log("ITITITIT" + playerPoints);
-    console.log("OPPO" + opponentPoints);
+    console.log("PLAYER" + playerPoints);
+    console.log("OPPONENT" + opponentPoints);
   }
 
   function simulateOpponentMove(gameState: GameState, setOpponentCard) {
