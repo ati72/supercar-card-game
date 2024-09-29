@@ -1,4 +1,4 @@
-package com.d2ovj9.supercarcardgame.dto;
+package com.d2ovj9.supercarcardgame.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

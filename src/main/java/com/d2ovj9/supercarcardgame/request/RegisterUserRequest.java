@@ -1,13 +1,13 @@
-package com.d2ovj9.supercarcardgame.dto;
+package com.d2ovj9.supercarcardgame.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AuthCredentialsRequest {
+public class RegisterUserRequest {
 
-    // DTO a kliens login formjához, kik kell tölteni mindkét mezőt, min 3 max 20 karakter
+    // DTO a frontend regisztrációs formjához
 
     @NotBlank(message = "Username must not be empty")
     @Size(min = 3, message = "Username must be at least 3 characters long.")

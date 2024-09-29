@@ -27,9 +27,9 @@ public class AppUserDetails implements UserDetails {
     // TODO: REFACTOR - authority should be named ROLE in entity...
 
     public static AppUserDetails buildUserDetails(User user) {
-        List<GrantedAuthority> authorities = user.getAuthorities() // should be getRoles
+        List<GrantedAuthority> authorities = user.getRoles() // should be getRoles
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
 
         return new AppUserDetails(

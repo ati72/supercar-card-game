@@ -1,23 +1,23 @@
 package com.d2ovj9.supercarcardgame.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class Authority implements GrantedAuthority {
+public class Role {
 
     // Felhasználói jogosultságok modellje
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
 
-    private String authority;
-
+    public Role(String name) {
+        this.name = name;
+    }
 }

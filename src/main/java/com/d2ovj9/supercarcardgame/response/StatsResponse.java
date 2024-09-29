@@ -1,6 +1,5 @@
-package com.d2ovj9.supercarcardgame.dto;
+package com.d2ovj9.supercarcardgame.response;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

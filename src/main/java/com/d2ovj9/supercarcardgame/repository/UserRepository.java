@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Felhasználó felhasználónév alapján
     User findByUsername(String username);
-    // Top10 felhasználó nyert játszma szerint
     List<User> findTop10ByOrderByGamesWonDesc();
-    // Felhasználók száma adott jogosultság szerint
-    int countByAuthoritiesAuthority(String authority);
+    int countByRolesName(String name);
 }

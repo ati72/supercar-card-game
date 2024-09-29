@@ -3,7 +3,6 @@ package com.d2ovj9.supercarcardgame.security.config;
 import com.d2ovj9.supercarcardgame.security.jwt.AuthTokenFilter;
 import com.d2ovj9.supercarcardgame.security.jwt.JwtAuthEntryPoint;
 import com.d2ovj9.supercarcardgame.security.user.AppUserDetailsService;
-import com.d2ovj9.supercarcardgame.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
